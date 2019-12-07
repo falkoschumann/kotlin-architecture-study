@@ -56,9 +56,13 @@ object DispatchQueue {
 
     var isTesting = false
 
-    val application
-        get() = if (isTesting) testExecutor else applicationExecutor
+    fun application(task: () -> Unit) {
+        if (isTesting) testExecutor.execute(task)
+        else applicationExecutor.execute(task)
+    }
 
-    val background
-        get() = if (isTesting) testExecutor else backgroundExecutor
+    fun background(task: () -> Unit) {
+        if (isTesting) testExecutor.execute(task)
+        else backgroundExecutor.execute(task)
+    }
 }

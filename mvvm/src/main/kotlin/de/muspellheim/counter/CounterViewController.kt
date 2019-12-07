@@ -21,28 +21,28 @@ class CounterViewController {
 
     fun injectCounterService(service: CounterService) {
         counterService = service
-        updateValue()
+        updateState()
     }
 
     fun increase() {
-        DispatchQueue.background.execute {
+        DispatchQueue.background {
             counterService.increment()
-            DispatchQueue.application.execute {
-                updateValue()
+            DispatchQueue.application {
+                updateState()
             }
         }
     }
 
     fun decrease() {
-        DispatchQueue.background.execute {
+        DispatchQueue.background {
             counterService.decrement()
-            DispatchQueue.application.execute {
-                updateValue()
+            DispatchQueue.application {
+                updateState()
             }
         }
     }
 
-    private fun updateValue() {
+    private fun updateState() {
         value = counterService.value.toString()
     }
 }
