@@ -20,7 +20,7 @@ subprojects {
     val implementation by configurations
     val testImplementation by configurations
     dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.41")
+        implementation(kotlin("stdlib-jdk8"))
 
         testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
     }

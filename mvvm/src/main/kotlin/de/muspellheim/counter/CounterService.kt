@@ -5,6 +5,8 @@
 
 package de.muspellheim.counter
 
+import java.lang.Integer.max
+
 /** A simple domain service with state. */
 class CounterService {
 
@@ -16,6 +18,6 @@ class CounterService {
     }
 
     fun decrement() {
-        value--
+        value = max(0, value - 1)
     }
 }

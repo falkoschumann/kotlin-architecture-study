@@ -27,6 +27,7 @@ class App : Application() {
         controller.injectCounterService(CounterService())
 
         primaryStage.scene = Scene(root)
+        primaryStage.title = "Counter - MVVM"
         primaryStage.show()
     }
 }
