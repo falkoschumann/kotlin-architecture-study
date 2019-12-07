@@ -1,5 +1,5 @@
 /*
- * Architecture Study MVVM
+ * Architecture Study - Model View ViewModel
  * Copyright (c) 2019 Falko Schumann
  */
 
@@ -11,6 +11,7 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 
+/** The app builds and binds the components and services. */
 class App : Application() {
 
     private lateinit var counterService: CounterService

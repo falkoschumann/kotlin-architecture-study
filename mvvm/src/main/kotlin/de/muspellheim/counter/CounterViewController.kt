@@ -1,5 +1,5 @@
 /*
- * Architecture Study MVVM
+ * Architecture Study - Model View ViewModel
  * Copyright (c) 2019 Falko Schumann
  */
 
@@ -8,7 +8,7 @@ package de.muspellheim.counter
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
 
-/** View model. */
+/** The view model interacts with the user through the user interface. */
 class CounterViewController {
 
     private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "") }

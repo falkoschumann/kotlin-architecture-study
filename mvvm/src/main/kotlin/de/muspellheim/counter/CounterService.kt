@@ -1,11 +1,11 @@
 /*
- * Architecture Study MVVM
+ * Architecture Study - Model View ViewModel
  * Copyright (c) 2019 Falko Schumann
  */
 
 package de.muspellheim.counter
 
-/** A simple service with state. */
+/** A simple domain service with state. */
 class CounterService {
 
     var value = 0

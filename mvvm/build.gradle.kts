@@ -1,5 +1,5 @@
 /*
- * Architecture Study MVVM
+ * Architecture Study - Model View ViewModel
  * Copyright (c) 2019 Falko Schumann
  */
 
@@ -10,4 +10,3 @@ plugins {
 application {
     mainClassName = "de.muspellheim.counter.AppKt"
 }
-

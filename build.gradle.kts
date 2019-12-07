@@ -39,7 +39,7 @@ subprojects {
     spotless {
         kotlin {
             ktlint()
-            licenseHeaderFile("config/spotless/license.header")
+            licenseHeaderFile("config/license.header")
         }
     }
 }

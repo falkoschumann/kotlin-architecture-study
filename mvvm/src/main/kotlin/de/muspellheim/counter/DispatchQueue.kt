@@ -1,5 +1,5 @@
 /*
- * Architecture Study MVVM
+ * Architecture Study - Model View ViewModel
  * Copyright (c) 2019 Falko Schumann
  */
 
@@ -9,6 +9,7 @@ import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingQueue
 import javafx.application.Platform
 
+/** Run tasks in one background queue or in the application queue. */
 object DispatchQueue {
 
     private val applicationExecutor = Executor {
