@@ -1,6 +1,7 @@
 /*
  * Architecture Study
- * Copyright (c) $YEAR Falko Schumann
+ * Copyright (c) 2019 Falko Schumann
  */
 
 rootProject.name = "architecture-study"
+include("mvvm")
