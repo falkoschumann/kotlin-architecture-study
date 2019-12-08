@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test
 class AcceptanceTests {
 
     private lateinit var fixture: App
-    private lateinit var counterViewController: CounterViewController
 
     @BeforeEach
     fun setUp() {
@@ -28,9 +27,6 @@ class AcceptanceTests {
 
         fixture = App()
         fixture.init()
-
-        counterViewController = CounterViewController()
-        counterViewController.injectCounterStore(fixture.counterStore)
     }
 
     @Test
@@ -38,53 +34,45 @@ class AcceptanceTests {
         // Then
         assertEquals(0, fixture.counterStore.value)
         assertFalse(fixture.counterStore.decreaseable)
-        assertEquals("0", counterViewController.value)
-        assertTrue(counterViewController.descreaseDisable)
     }
 
     @Test
     fun `increment counter`() {
         // When
-        fixture.dispatcher.dispatch(IncreaseCounterAction())
-        fixture.dispatcher.dispatch(IncreaseCounterAction())
+        fixture.counterActions.increase()
+        fixture.counterActions.increase()
 
         // Then
         assertEquals(2, fixture.counterStore.value)
         assertTrue(fixture.counterStore.decreaseable)
-        assertEquals("2", counterViewController.value)
-        assertFalse(counterViewController.descreaseDisable)
     }
 
     @Test
     fun `decrement counter`() {
         //  Given
-        fixture.dispatcher.dispatch(IncreaseCounterAction())
-        fixture.dispatcher.dispatch(IncreaseCounterAction())
+        fixture.counterActions.increase()
+        fixture.counterActions.increase()
 
         // When
-        fixture.dispatcher.dispatch(DecreaseCounterAction())
+        fixture.counterActions.decrease()
 
         // Then
         assertEquals(1, fixture.counterStore.value)
         assertTrue(fixture.counterStore.decreaseable)
-        assertEquals("1", counterViewController.value)
-        assertFalse(counterViewController.descreaseDisable)
     }
 
     @Test
     fun `counter can not be negative`() {
         //  Given
-        fixture.dispatcher.dispatch(IncreaseCounterAction())
-        fixture.dispatcher.dispatch(IncreaseCounterAction())
+        fixture.counterActions.increase()
+        fixture.counterActions.increase()
 
         // When
-        fixture.dispatcher.dispatch(DecreaseCounterAction())
-        fixture.dispatcher.dispatch(DecreaseCounterAction())
+        fixture.counterActions.decrease()
+        fixture.counterActions.decrease()
 
         // Then
         assertEquals(0, fixture.counterStore.value)
         assertFalse(fixture.counterStore.decreaseable)
-        assertEquals("0", counterViewController.value)
-        assertTrue(counterViewController.descreaseDisable)
     }
 }

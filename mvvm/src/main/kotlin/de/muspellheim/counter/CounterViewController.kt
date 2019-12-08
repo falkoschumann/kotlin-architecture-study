@@ -8,9 +8,10 @@ package de.muspellheim.counter
 import de.muspellheim.shared.DispatchQueue
 import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyStringWrapper
+import javax.inject.Inject
 
 /** The view model interacts with the user through the user interface. */
-class CounterViewController {
+class CounterViewController @Inject constructor(private val counterService: CounterService) {
 
     private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "") }
     fun valueProperty() = valueProperty.readOnlyProperty!!
@@ -24,10 +25,7 @@ class CounterViewController {
         get() = descreaseDisableProperty.get()
         private set(value) = descreaseDisableProperty.set(value)
 
-    private lateinit var counterService: CounterService
-
-    fun injectCounterService(service: CounterService) {
-        counterService = service
+    init {
         updateState()
     }
 

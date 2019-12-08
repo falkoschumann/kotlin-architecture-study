@@ -8,9 +8,10 @@ package de.muspellheim.counter
 import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
+import javax.inject.Inject
 
 /** A view controller. */
-class CounterViewController {
+class CounterViewController @Inject constructor(counterStore: CounterStore, private val counterActions: CounterActions) {
 
     private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "") }
     fun valueProperty(): ReadOnlyStringProperty = valueProperty.readOnlyProperty
@@ -24,19 +25,16 @@ class CounterViewController {
         get() = descreaseDisableProperty.get()
         private set(value) = descreaseDisableProperty.set(value)
 
-    private lateinit var counterStore: CounterStore
-
-    fun injectCounterStore(store: CounterStore) {
-        counterStore = store
+    init {
         valueProperty.bind(counterStore.valueProperty().asString())
         descreaseDisableProperty.bind(counterStore.decreaseableProperty().not())
     }
 
     fun increase() {
-        counterStore.dispatcher.dispatch(IncreaseCounterAction())
+        counterActions.increase()
     }
 
     fun decrease() {
-        counterStore.dispatcher.dispatch(DecreaseCounterAction())
+        counterActions.decrease()
     }
 }

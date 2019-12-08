@@ -21,6 +21,7 @@ subprojects {
     val testImplementation by configurations
     dependencies {
         implementation(kotlin("stdlib-jdk8"))
+        implementation("com.google.inject:guice:4.2.2")
 
         testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
     }

@@ -28,8 +28,7 @@ class AcceptanceTests {
         val app = App()
         app.init()
 
-        counterViewControllerFixture = CounterViewController()
-        counterViewControllerFixture.injectCounterService(app.counterService)
+        counterViewControllerFixture = CounterViewController(app.counterService)
     }
 
     @Test

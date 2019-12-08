@@ -11,9 +11,10 @@ import de.muspellheim.shared.DispatchQueue
 import java.lang.Integer.max
 import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyIntegerWrapper
+import javax.inject.Inject
 
 /** A simple store. */
-class CounterStore(dispatcher: Dispatcher<Any>) : Store<Any>(dispatcher) {
+class CounterStore @Inject constructor(dispatcher: Dispatcher<Any>) : Store<Any>(dispatcher) {
 
     private val valueProperty by lazy { ReadOnlyIntegerWrapper(this, "value", 0) }
     fun valueProperty() = valueProperty.readOnlyProperty!!

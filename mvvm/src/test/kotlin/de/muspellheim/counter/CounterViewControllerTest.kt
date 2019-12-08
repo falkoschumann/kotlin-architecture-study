@@ -22,8 +22,8 @@ class CounterViewControllerTest {
         DispatchQueue.isTesting = true
 
         // Given
-        fixture = CounterViewController()
-        fixture.injectCounterService(CounterService())
+        val service = CounterService()
+        fixture = CounterViewController(service)
     }
 
     @Test

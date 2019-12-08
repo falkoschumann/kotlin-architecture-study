@@ -29,8 +29,8 @@ class CounterViewControllerTest {
         val dispatcher = Dispatcher<Any>()
 
         val store = CounterStore(dispatcher)
-        fixture = CounterViewController()
-        fixture.injectCounterStore(store)
+        val actions = CounterActions(dispatcher)
+        fixture = CounterViewController(store, actions)
     }
 
     @Test
