@@ -3,7 +3,7 @@
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.counter
+package de.muspellheim.counter.flux
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach

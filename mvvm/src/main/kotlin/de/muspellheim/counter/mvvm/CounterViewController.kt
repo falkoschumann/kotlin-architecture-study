@@ -3,7 +3,7 @@
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.counter
+package de.muspellheim.counter.mvvm
 
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper

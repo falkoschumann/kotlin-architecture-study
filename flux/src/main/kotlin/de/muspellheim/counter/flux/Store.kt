@@ -3,7 +3,7 @@
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.counter
+package de.muspellheim.counter.flux
 
 /** Base class of a store. */
 abstract class Store<T>(val dispatcher: Dispatcher<T>) {

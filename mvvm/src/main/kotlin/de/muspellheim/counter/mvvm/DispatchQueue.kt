@@ -3,7 +3,7 @@
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.counter
+package de.muspellheim.counter.mvvm
 
 import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingQueue

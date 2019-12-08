@@ -1,27 +1,23 @@
 /*
- * Architecture Study - Flux
+ * Architecture Study - Model View ViewModel
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.counter
+package de.muspellheim.counter.mvvm
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 /** Unit tests. */
-class CounterStoreTest {
+class CounterServiceTest {
 
-    private lateinit var fixture: CounterStore
-
-    private lateinit var dispatcher: Dispatcher<CounterAction>
+    private lateinit var fixture: CounterService
 
     @BeforeEach
     fun setUp() {
         //  Given
-        DispatchQueue.isTesting = true
-        dispatcher = Dispatcher()
-        fixture = CounterStore(dispatcher)
+        fixture = CounterService()
     }
 
     @Test
@@ -33,8 +29,8 @@ class CounterStoreTest {
     @Test
     fun `increment counter`() {
         // When
-        dispatcher.dispatch(IncreaseCounterAction())
-        dispatcher.dispatch(IncreaseCounterAction())
+        fixture.increment()
+        fixture.increment()
 
         // Then
         assertEquals(2, fixture.value)
@@ -43,11 +39,11 @@ class CounterStoreTest {
     @Test
     fun `decrement counter`() {
         //  Given
-        dispatcher.dispatch(IncreaseCounterAction())
-        dispatcher.dispatch(IncreaseCounterAction())
+        fixture.increment()
+        fixture.increment()
 
         // When
-        dispatcher.dispatch(DecreaseCounterAction())
+        fixture.decrement()
 
         // Then
         assertEquals(1, fixture.value)

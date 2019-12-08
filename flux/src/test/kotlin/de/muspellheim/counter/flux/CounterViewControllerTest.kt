@@ -1,9 +1,9 @@
 /*
- * Architecture Study - Model View ViewModel
+ * Architecture Study - Flux
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.counter
+package de.muspellheim.counter.flux
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -16,11 +16,12 @@ class CounterViewControllerTest {
 
     @BeforeEach
     fun setUp() {
-        DispatchQueue.isTesting = true
-
         // Given
+        DispatchQueue.isTesting = true
+        val dispatcher = Dispatcher<CounterAction>()
+        val store = CounterStore(dispatcher)
         fixture = CounterViewController()
-        fixture.injectCounterService(CounterService())
+        fixture.injectCounterStore(store)
     }
 
     @Test

@@ -3,7 +3,7 @@
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.counter
+package de.muspellheim.counter.flux
 
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
