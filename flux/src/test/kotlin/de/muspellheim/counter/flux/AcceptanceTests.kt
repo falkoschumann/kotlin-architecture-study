@@ -16,8 +16,12 @@ class AcceptanceTests {
 
     @BeforeEach
     fun setUp() {
+        //
         // Given
+        //
+
         DispatchQueue.isTesting = true
+
         fixture = App()
         fixture.init()
     }

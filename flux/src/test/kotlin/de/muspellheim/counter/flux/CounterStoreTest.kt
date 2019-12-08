@@ -18,9 +18,14 @@ class CounterStoreTest {
 
     @BeforeEach
     fun setUp() {
+        //
         //  Given
+        //
+
         DispatchQueue.isTesting = true
+
         dispatcher = Dispatcher()
+
         fixture = CounterStore(dispatcher)
     }
 

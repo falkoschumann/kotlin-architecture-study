@@ -16,9 +16,14 @@ class CounterViewControllerTest {
 
     @BeforeEach
     fun setUp() {
+        //
         // Given
+        //
+
         DispatchQueue.isTesting = true
+
         val dispatcher = Dispatcher<CounterAction>()
+
         val store = CounterStore(dispatcher)
         fixture = CounterViewController()
         fixture.injectCounterStore(store)
