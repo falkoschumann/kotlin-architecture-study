@@ -8,7 +8,7 @@ package de.muspellheim.counter.flux
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
 
-/** The view model interacts with the user through the user interface. */
+/** A view controller. */
 class CounterViewController {
 
     private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "") }

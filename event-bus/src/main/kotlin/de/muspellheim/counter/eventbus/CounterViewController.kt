@@ -3,14 +3,13 @@
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.counter
+package de.muspellheim.counter.eventbus
 
-import javafx.application.Platform
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
 
-/** View model. */
-class CounterViewController {
+/** A supervising controller. */
+class CounterViewController : JavaFxActor() {
 
     private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "0") }
     fun valueProperty(): ReadOnlyStringProperty = valueProperty.readOnlyProperty
@@ -18,21 +17,17 @@ class CounterViewController {
         get() = valueProperty.get()
         private set(value) = valueProperty.set(value)
 
-    init {
-        EventBus.default().subscribe { handleEvent(it) }
-    }
-
     fun increase() {
-        EventBus.default().publish(IncreaseCounterAction())
+        outbox.send(IncreaseCounterAction())
     }
 
     fun decrease() {
-        EventBus.default().publish(DecreaseCounterAction())
+        outbox.send(DecreaseCounterAction())
     }
 
-    private fun handleEvent(event: Any) {
-        if (event is CounterUpdatedEvent) {
-            Platform.runLater { value = event.newValue.toString() }
+    override fun work(message: Any) {
+        if (message is CounterUpdatedEvent) {
+            value = message.newValue.toString()
         }
     }
 }
