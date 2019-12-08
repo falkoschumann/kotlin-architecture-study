@@ -17,10 +17,15 @@ class AcceptanceTests {
 
     @BeforeEach
     fun setUp() {
+        //
         // Given
+        //
+
         DispatchQueue.isTesting = true
+
         val app = App()
         app.init()
+
         counterViewControllerFixture = CounterViewController()
         counterViewControllerFixture.injectCounterService(app.counterService)
     }

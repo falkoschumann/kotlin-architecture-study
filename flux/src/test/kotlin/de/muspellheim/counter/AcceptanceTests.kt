@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 class AcceptanceTests {
 
     private lateinit var fixture: App
+    private lateinit var counterViewController: CounterViewController
 
     @BeforeEach
     fun setUp() {
@@ -25,12 +26,16 @@ class AcceptanceTests {
 
         fixture = App()
         fixture.init()
+
+        counterViewController = CounterViewController()
+        counterViewController.injectCounterStore(fixture.counterStore)
     }
 
     @Test
     fun `intial counter state`() {
         // Then
         assertEquals(0, fixture.counterStore.value)
+        assertEquals("0", counterViewController.value)
     }
 
     @Test
@@ -41,6 +46,7 @@ class AcceptanceTests {
 
         // Then
         assertEquals(2, fixture.counterStore.value)
+        assertEquals("2", counterViewController.value)
     }
 
     @Test
@@ -54,5 +60,6 @@ class AcceptanceTests {
 
         // Then
         assertEquals(1, fixture.counterStore.value)
+        assertEquals("1", counterViewController.value)
     }
 }
