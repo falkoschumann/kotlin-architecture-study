@@ -13,7 +13,7 @@ import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyIntegerWrapper
 
 /** A simple store. */
-class CounterStore(dispatcher: Dispatcher<CounterAction>) : Store<CounterAction>(dispatcher) {
+class CounterStore(dispatcher: Dispatcher<Any>) : Store<Any>(dispatcher) {
 
     private val valueProperty by lazy { ReadOnlyIntegerWrapper(this, "value", 0) }
     fun valueProperty() = valueProperty.readOnlyProperty!!
@@ -27,7 +27,7 @@ class CounterStore(dispatcher: Dispatcher<CounterAction>) : Store<CounterAction>
         get() = decreaseableProperty.get()
         private set(value) = decreaseableProperty.set(value)
 
-    override fun onDispatch(payload: CounterAction) {
+    override fun onDispatch(payload: Any) {
         when (payload) {
             is IncreaseCounterAction -> increase()
             is DecreaseCounterAction -> decrease()

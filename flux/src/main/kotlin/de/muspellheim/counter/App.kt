@@ -15,7 +15,7 @@ import javafx.stage.Stage
 /** The app builds and binds the components and services. */
 class App : Application() {
 
-    internal lateinit var dispatcher: Dispatcher<CounterAction>
+    internal lateinit var dispatcher: Dispatcher<Any>
     internal lateinit var counterStore: CounterStore
 
     override fun init() {

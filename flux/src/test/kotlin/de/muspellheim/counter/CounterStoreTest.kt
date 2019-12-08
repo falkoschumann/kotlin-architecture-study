@@ -18,7 +18,7 @@ class CounterStoreTest {
 
     private lateinit var fixture: CounterStore
 
-    private lateinit var dispatcher: Dispatcher<CounterAction>
+    private lateinit var dispatcher: Dispatcher<Any>
 
     @BeforeEach
     fun setUp() {

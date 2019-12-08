@@ -26,7 +26,7 @@ class CounterViewControllerTest {
 
         DispatchQueue.isTesting = true
 
-        val dispatcher = Dispatcher<CounterAction>()
+        val dispatcher = Dispatcher<Any>()
 
         val store = CounterStore(dispatcher)
         fixture = CounterViewController()
