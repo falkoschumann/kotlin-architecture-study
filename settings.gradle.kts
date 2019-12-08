@@ -4,4 +4,4 @@
  */
 
 rootProject.name = "architecture-study"
-include("mvvm", "event-bus")
+include("mvvm", "event-bus", "flux")
