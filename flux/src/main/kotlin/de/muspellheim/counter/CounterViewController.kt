@@ -5,6 +5,7 @@
 
 package de.muspellheim.counter
 
+import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
 
@@ -17,11 +18,18 @@ class CounterViewController {
         get() = valueProperty.get()
         private set(value) = valueProperty.set(value)
 
+    private val descreaseDisableProperty by lazy { ReadOnlyBooleanWrapper(this, "descreaseDisable", true) }
+    fun descreaseDisableProperty() = descreaseDisableProperty.readOnlyProperty!!
+    var descreaseDisable: Boolean
+        get() = descreaseDisableProperty.get()
+        private set(value) = descreaseDisableProperty.set(value)
+
     private lateinit var counterStore: CounterStore
 
     fun injectCounterStore(store: CounterStore) {
         counterStore = store
         valueProperty.bind(counterStore.valueProperty().asString())
+        descreaseDisableProperty.bind(counterStore.decreaseableProperty().not())
     }
 
     fun increase() {

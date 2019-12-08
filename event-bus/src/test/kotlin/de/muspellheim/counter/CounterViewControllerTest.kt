@@ -8,6 +8,8 @@ package de.muspellheim.counter
 import de.muspellheim.eventbus.JavaFxActor
 import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -35,6 +37,7 @@ class CounterViewControllerTest {
     fun `intial counter state`() {
         // Then
         assertEquals("0", fixture.value)
+        assertTrue(fixture.descreaseDisable)
     }
 
     @Test
@@ -46,6 +49,7 @@ class CounterViewControllerTest {
         // Then
         TimeUnit.MILLISECONDS.sleep(500)
         assertEquals("2", fixture.value)
+        assertFalse(fixture.descreaseDisable)
     }
 
     @Test
@@ -60,5 +64,22 @@ class CounterViewControllerTest {
         // Then
         TimeUnit.MILLISECONDS.sleep(500)
         assertEquals("1", fixture.value)
+        assertFalse(fixture.descreaseDisable)
+    }
+
+    @Test
+    fun `counter can not be negative`() {
+        //  Given
+        fixture.increase()
+        fixture.increase()
+
+        // When
+        fixture.decrease()
+        fixture.decrease()
+
+        // Then
+        TimeUnit.MILLISECONDS.sleep(500)
+        assertEquals("0", fixture.value)
+        assertTrue(fixture.descreaseDisable)
     }
 }

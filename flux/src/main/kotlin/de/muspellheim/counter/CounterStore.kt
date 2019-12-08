@@ -9,6 +9,7 @@ import de.muspellheim.flux.Dispatcher
 import de.muspellheim.flux.Store
 import de.muspellheim.shared.DispatchQueue
 import java.lang.Integer.max
+import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyIntegerWrapper
 
 /** A simple store. */
@@ -20,6 +21,12 @@ class CounterStore(dispatcher: Dispatcher<CounterAction>) : Store<CounterAction>
         get() = valueProperty.get()
         private set(value) = valueProperty.set(value)
 
+    private val decreaseableProperty by lazy { ReadOnlyBooleanWrapper(this, "decreaseable", false) }
+    fun decreaseableProperty() = decreaseableProperty.readOnlyProperty!!
+    var decreaseable: Boolean
+        get() = decreaseableProperty.get()
+        private set(value) = decreaseableProperty.set(value)
+
     override fun onDispatch(payload: CounterAction) {
         when (payload) {
             is IncreaseCounterAction -> increase()
@@ -30,18 +37,21 @@ class CounterStore(dispatcher: Dispatcher<CounterAction>) : Store<CounterAction>
     private fun increase() {
         DispatchQueue.background {
             val v = value + 1
-            DispatchQueue.application {
-                value = v
-            }
+            setState(v)
         }
     }
 
     private fun decrease() {
         DispatchQueue.background {
             val v = max(0, value - 1)
-            DispatchQueue.application {
-                value = v
-            }
+            setState(v)
+        }
+    }
+
+    private fun setState(newValue: Int) {
+        DispatchQueue.application {
+            value = newValue
+            decreaseable = newValue > 0
         }
     }
 }

@@ -10,6 +10,8 @@ import de.muspellheim.eventbus.JavaFxActor
 import de.muspellheim.eventbus.registerActor
 import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -38,6 +40,7 @@ class AcceptanceTests {
     fun `intial counter state`() {
         // Then
         assertEquals("0", counterViewController.value)
+        assertTrue(counterViewController.descreaseDisable)
     }
 
     @Test
@@ -49,6 +52,7 @@ class AcceptanceTests {
         // Then
         TimeUnit.MILLISECONDS.sleep(500)
         assertEquals("2", counterViewController.value)
+        assertFalse(counterViewController.descreaseDisable)
     }
 
     @Test
@@ -63,5 +67,22 @@ class AcceptanceTests {
         // Then
         TimeUnit.MILLISECONDS.sleep(500)
         assertEquals("1", counterViewController.value)
+        assertFalse(counterViewController.descreaseDisable)
+    }
+
+    @Test
+    fun `counter can not be negative`() {
+        //  Given
+        counterViewController.increase()
+        counterViewController.increase()
+
+        // When
+        counterViewController.decrease()
+        counterViewController.decrease()
+
+        // Then
+        TimeUnit.MILLISECONDS.sleep(500)
+        assertEquals("0", counterViewController.value)
+        assertTrue(counterViewController.descreaseDisable)
     }
 }

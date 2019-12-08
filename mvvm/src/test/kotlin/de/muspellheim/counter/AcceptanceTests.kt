@@ -7,6 +7,8 @@ package de.muspellheim.counter
 
 import de.muspellheim.shared.DispatchQueue
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -34,6 +36,7 @@ class AcceptanceTests {
     fun `intial counter state`() {
         // Then
         assertEquals("0", counterViewControllerFixture.value)
+        assertTrue(counterViewControllerFixture.descreaseDisable)
     }
 
     @Test
@@ -44,6 +47,7 @@ class AcceptanceTests {
 
         // Then
         assertEquals("2", counterViewControllerFixture.value)
+        assertFalse(counterViewControllerFixture.descreaseDisable)
     }
 
     @Test
@@ -57,5 +61,21 @@ class AcceptanceTests {
 
         // Then
         assertEquals("1", counterViewControllerFixture.value)
+        assertFalse(counterViewControllerFixture.descreaseDisable)
+    }
+
+    @Test
+    fun `counter can not be negative`() {
+        //  Given
+        counterViewControllerFixture.increase()
+        counterViewControllerFixture.increase()
+
+        // When
+        counterViewControllerFixture.decrease()
+        counterViewControllerFixture.decrease()
+
+        // Then
+        assertEquals("0", counterViewControllerFixture.value)
+        assertTrue(counterViewControllerFixture.descreaseDisable)
     }
 }

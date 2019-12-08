@@ -26,6 +26,8 @@ class App : Application() {
     override fun start(primaryStage: Stage) {
         val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
         val root = loader.load<Parent>()
+        val counterViewController = loader.getController<CounterViewController>()
+        counterViewController.injectCounterStore(counterStore)
 
         primaryStage.scene = Scene(root)
         primaryStage.title = "Counter - Flux"

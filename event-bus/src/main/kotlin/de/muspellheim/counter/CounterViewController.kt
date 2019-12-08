@@ -6,6 +6,7 @@
 package de.muspellheim.counter
 
 import de.muspellheim.eventbus.JavaFxActor
+import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
 
@@ -18,6 +19,12 @@ class CounterViewController : JavaFxActor() {
         get() = valueProperty.get()
         private set(value) = valueProperty.set(value)
 
+    private val descreaseDisableProperty by lazy { ReadOnlyBooleanWrapper(this, "descreaseDisable", true) }
+    fun descreaseDisableProperty() = descreaseDisableProperty.readOnlyProperty!!
+    var descreaseDisable: Boolean
+        get() = descreaseDisableProperty.get()
+        private set(value) = descreaseDisableProperty.set(value)
+
     fun increase() {
         outbox.send(IncreaseCounterAction())
     }
@@ -29,6 +36,7 @@ class CounterViewController : JavaFxActor() {
     override fun work(message: Any) {
         if (message is CounterUpdatedEvent) {
             value = message.newValue.toString()
+            descreaseDisable = message.newValue <= 0
         }
     }
 }
