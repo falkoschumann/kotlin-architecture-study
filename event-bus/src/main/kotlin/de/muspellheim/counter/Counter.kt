@@ -8,7 +8,7 @@ package de.muspellheim.counter
 import java.lang.Integer.max
 import java.util.concurrent.LinkedBlockingQueue
 
-/** A simple domain object. */
+/** A simple domain object as actor. */
 class Counter {
 
     var value = 0
