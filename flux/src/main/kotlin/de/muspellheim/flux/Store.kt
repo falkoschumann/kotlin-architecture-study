@@ -5,8 +5,7 @@
 
 package de.muspellheim.flux
 
-import de.muspellheim.shared.EmitterSubscription
-import de.muspellheim.shared.EventEmitter
+import de.muspellheim.shared.Action
 
 /** Base class of a store. */
 abstract class Store(val dispatcher: Dispatcher<Any>) {
@@ -20,14 +19,10 @@ abstract class Store(val dispatcher: Dispatcher<Any>) {
         }
         protected set
 
-    protected val changed = EventEmitter<Unit>()
+    val changed = Action<Unit>()
 
     init {
         dispatchToken = dispatcher.register { invokeOnDispatch(it) }
-    }
-
-    fun addListener(callback: (Unit?) -> Unit): EmitterSubscription {
-        return changed.addListener(callback)
     }
 
     protected fun emitChange() {
@@ -39,11 +34,9 @@ abstract class Store(val dispatcher: Dispatcher<Any>) {
         isChanged = false
         onDispatch(payload)
         if (isChanged) {
-            changed.emit()
+            changed()
         }
     }
 
-    protected fun onDispatch(payload: Any) {
-        assert(false) { "$javaClass has not overridden Store.onDispatch(), which is required" }
-    }
+    protected abstract fun onDispatch(payload: Any)
 }

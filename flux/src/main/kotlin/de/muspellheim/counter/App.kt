@@ -16,20 +16,29 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 import javafx.util.Callback
 
-/** The app builds and binds the components and services. */
+/** The app builds stores and root view. */
 class App : Application() {
 
     internal lateinit var dispatcher: Dispatcher<Any>
     internal lateinit var counterStore: CounterStore
     internal lateinit var counterActions: CounterActions
 
-    private lateinit var injector: Injector
-
     override fun init() {
         dispatcher = Dispatcher()
         counterStore = CounterStore(dispatcher)
         counterActions = CounterActions(dispatcher)
+    }
 
+    override fun start(primaryStage: Stage) {
+        val injector = createInjector()
+        val root = createRoot(injector)
+
+        primaryStage.scene = Scene(root)
+        primaryStage.title = "Counter - Flux"
+        primaryStage.show()
+    }
+
+    private fun createInjector(): Injector {
         val module = object : AbstractModule() {
             override fun configure() {
                 bind(Dispatcher::class.java).toInstance(dispatcher)
@@ -37,17 +46,13 @@ class App : Application() {
                 bind(CounterActions::class.java).toInstance(counterActions)
             }
         }
-        injector = Guice.createInjector(module)
+        return Guice.createInjector(module)
     }
 
-    override fun start(primaryStage: Stage) {
+    private fun createRoot(injector: Injector): Parent {
         val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
         loader.controllerFactory = Callback { injector.getInstance(it) }
-        val root = loader.load<Parent>()
-
-        primaryStage.scene = Scene(root)
-        primaryStage.title = "Counter - Flux"
-        primaryStage.show()
+        return loader.load()
     }
 }
 

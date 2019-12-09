@@ -15,16 +15,12 @@ abstract class ReduceStore<T : Any>(val initialState: T, dispatcher: Dispatcher<
         return one === two
     }
 
-    override fun invokeOnDispatch(payload: Any) {
-        isChanged = false
+    override fun onDispatch(payload: Any) {
         val startingState = state
         val endingState = reduce(startingState, payload)
         if (!areEqual(startingState, endingState)) {
             state = endingState
             emitChange()
-        }
-        if (isChanged) {
-            changed.emit()
         }
     }
 }

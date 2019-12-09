@@ -30,7 +30,7 @@ class CounterViewController @Inject constructor(
         private set(value) = descreaseDisableProperty.set(value)
 
     init {
-        counterStore.addListener { update() }
+        counterStore.changed += { update() }
         update()
     }
 

@@ -7,8 +7,8 @@ package de.muspellheim.counter
 
 import de.muspellheim.flux.Dispatcher
 import de.muspellheim.flux.ReduceStore
-import java.lang.Integer.max
 import javax.inject.Inject
+import kotlin.math.max
 
 /** A simple store. */
 class CounterStore @Inject constructor(dispatcher: Dispatcher<Any>) :
