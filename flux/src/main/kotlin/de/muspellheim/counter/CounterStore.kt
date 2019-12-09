@@ -14,6 +14,8 @@ import kotlin.math.max
 class CounterStore @Inject constructor(dispatcher: Dispatcher<Any>) :
     ReduceStore<Counter>(Counter(0, false), dispatcher) {
 
+    // TODO run in background
+
     override fun reduce(state: Counter, action: Any): Counter {
         return when (action) {
             is IncreaseCounterAction -> {
