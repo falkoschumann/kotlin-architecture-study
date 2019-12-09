@@ -32,8 +32,8 @@ class AcceptanceTests {
     @Test
     fun `intial counter state`() {
         // Then
-        assertEquals(0, fixture.counterStore.value)
-        assertFalse(fixture.counterStore.decreaseable)
+        assertEquals(0, fixture.counterStore.state.value)
+        assertFalse(fixture.counterStore.state.isDecreasable)
     }
 
     @Test
@@ -43,8 +43,8 @@ class AcceptanceTests {
         fixture.counterActions.increase()
 
         // Then
-        assertEquals(2, fixture.counterStore.value)
-        assertTrue(fixture.counterStore.decreaseable)
+        assertEquals(2, fixture.counterStore.state.value)
+        assertTrue(fixture.counterStore.state.isDecreasable)
     }
 
     @Test
@@ -57,8 +57,8 @@ class AcceptanceTests {
         fixture.counterActions.decrease()
 
         // Then
-        assertEquals(1, fixture.counterStore.value)
-        assertTrue(fixture.counterStore.decreaseable)
+        assertEquals(1, fixture.counterStore.state.value)
+        assertTrue(fixture.counterStore.state.isDecreasable)
     }
 
     @Test
@@ -72,7 +72,7 @@ class AcceptanceTests {
         fixture.counterActions.decrease()
 
         // Then
-        assertEquals(0, fixture.counterStore.value)
-        assertFalse(fixture.counterStore.decreaseable)
+        assertEquals(0, fixture.counterStore.state.value)
+        assertFalse(fixture.counterStore.state.isDecreasable)
     }
 }

@@ -52,17 +52,15 @@ object DispatchQueue {
         }
     }
 
-    private val testExecutor = Executor { it.run() }
-
     var isTesting = false
 
     fun application(task: () -> Unit) {
-        if (isTesting) testExecutor.execute(task)
+        if (isTesting) task()
         else applicationExecutor.execute(task)
     }
 
     fun background(task: () -> Unit) {
-        if (isTesting) testExecutor.execute(task)
+        if (isTesting) task()
         else backgroundExecutor.execute(task)
     }
 }

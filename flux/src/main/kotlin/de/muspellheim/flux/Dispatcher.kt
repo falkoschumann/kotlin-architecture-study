@@ -8,19 +8,20 @@ package de.muspellheim.flux
 typealias DispatchToken = String
 typealias Callback<T> = (payload: T) -> Unit
 
+private const val PREFIX = "ID_"
+
 /** Class of the central dispatcher. */
 class Dispatcher<T> {
 
     var isDispatching = false
         private set
 
-    private val prefix = "ID_"
     private var lastId = 1
 
     private var callbacks = mapOf<DispatchToken, Callback<T>>()
 
     fun register(callback: Callback<T>): DispatchToken {
-        val id = prefix + lastId++
+        val id = PREFIX + lastId++
         callbacks = callbacks + Pair(id, callback)
         return id
     }

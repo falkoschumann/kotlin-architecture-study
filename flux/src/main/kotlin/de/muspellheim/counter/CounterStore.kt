@@ -6,53 +6,25 @@
 package de.muspellheim.counter
 
 import de.muspellheim.flux.Dispatcher
-import de.muspellheim.flux.Store
-import de.muspellheim.shared.DispatchQueue
+import de.muspellheim.flux.ReduceStore
 import java.lang.Integer.max
-import javafx.beans.property.ReadOnlyBooleanWrapper
-import javafx.beans.property.ReadOnlyIntegerWrapper
 import javax.inject.Inject
 
 /** A simple store. */
-class CounterStore @Inject constructor(dispatcher: Dispatcher<Any>) : Store<Any>(dispatcher) {
+class CounterStore @Inject constructor(dispatcher: Dispatcher<Any>) :
+    ReduceStore<Counter>(Counter(0, false), dispatcher) {
 
-    private val valueProperty by lazy { ReadOnlyIntegerWrapper(this, "value", 0) }
-    fun valueProperty() = valueProperty.readOnlyProperty!!
-    var value: Int
-        get() = valueProperty.get()
-        private set(value) = valueProperty.set(value)
-
-    private val decreaseableProperty by lazy { ReadOnlyBooleanWrapper(this, "decreaseable", false) }
-    fun decreaseableProperty() = decreaseableProperty.readOnlyProperty!!
-    var decreaseable: Boolean
-        get() = decreaseableProperty.get()
-        private set(value) = decreaseableProperty.set(value)
-
-    override fun onDispatch(payload: Any) {
-        when (payload) {
-            is IncreaseCounterAction -> increase()
-            is DecreaseCounterAction -> decrease()
-        }
-    }
-
-    private fun increase() {
-        DispatchQueue.background {
-            val v = value + 1
-            setState(v)
-        }
-    }
-
-    private fun decrease() {
-        DispatchQueue.background {
-            val v = max(0, value - 1)
-            setState(v)
-        }
-    }
-
-    private fun setState(newValue: Int) {
-        DispatchQueue.application {
-            value = newValue
-            decreaseable = newValue > 0
+    override fun reduce(state: Counter, action: Any): Counter {
+        return when (action) {
+            is IncreaseCounterAction -> {
+                val value = state.value + 1
+                state.copy(value = value, isDecreasable = value > 0)
+            }
+            is DecreaseCounterAction -> {
+                val value = max(0, state.value - 1)
+                state.copy(value = value, isDecreasable = value > 0)
+            }
+            else -> state
         }
     }
 }

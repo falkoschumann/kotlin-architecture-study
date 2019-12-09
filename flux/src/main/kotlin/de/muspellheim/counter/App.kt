@@ -32,9 +32,9 @@ class App : Application() {
 
         val module = object : AbstractModule() {
             override fun configure() {
-                bind(Dispatcher::class.java) to dispatcher
-                bind(CounterStore::class.java) to counterStore
-                bind(CounterActions::class.java) to counterActions
+                bind(Dispatcher::class.java).toInstance(dispatcher)
+                bind(CounterStore::class.java).toInstance(counterStore)
+                bind(CounterActions::class.java).toInstance(counterActions)
             }
         }
         injector = Guice.createInjector(module)

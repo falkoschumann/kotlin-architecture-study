@@ -5,13 +5,17 @@
 
 package de.muspellheim.counter
 
+import de.muspellheim.shared.DispatchQueue
 import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
 import javax.inject.Inject
 
 /** A view controller. */
-class CounterViewController @Inject constructor(counterStore: CounterStore, private val counterActions: CounterActions) {
+class CounterViewController @Inject constructor(
+    private val counterStore: CounterStore,
+    private val counterActions: CounterActions
+) {
 
     private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "") }
     fun valueProperty(): ReadOnlyStringProperty = valueProperty.readOnlyProperty
@@ -26,8 +30,8 @@ class CounterViewController @Inject constructor(counterStore: CounterStore, priv
         private set(value) = descreaseDisableProperty.set(value)
 
     init {
-        valueProperty.bind(counterStore.valueProperty().asString())
-        descreaseDisableProperty.bind(counterStore.decreaseableProperty().not())
+        counterStore.addListener { update() }
+        update()
     }
 
     fun increase() {
@@ -36,5 +40,12 @@ class CounterViewController @Inject constructor(counterStore: CounterStore, priv
 
     fun decrease() {
         counterActions.decrease()
+    }
+
+    private fun update() {
+        DispatchQueue.application {
+            value = counterStore.state.value.toString()
+            descreaseDisable = !counterStore.state.isDecreasable
+        }
     }
 }
