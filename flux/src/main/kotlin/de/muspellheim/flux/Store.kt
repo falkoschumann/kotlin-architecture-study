@@ -30,7 +30,7 @@ abstract class Store(val dispatcher: Dispatcher<Any>) {
         isChanged = true
     }
 
-    protected open fun invokeOnDispatch(payload: Any) {
+    private fun invokeOnDispatch(payload: Any) {
         isChanged = false
         onDispatch(payload)
         if (isChanged) {
