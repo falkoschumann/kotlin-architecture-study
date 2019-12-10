@@ -1,5 +1,5 @@
 /*
- * Architecture Study - Event Bus
+ * Architecture Study - Actor Model
  * Copyright (c) 2019 Falko Schumann
  */
 

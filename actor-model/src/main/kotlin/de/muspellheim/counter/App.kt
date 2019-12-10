@@ -1,5 +1,5 @@
 /*
- * Architecture Study - Event Bus
+ * Architecture Study - Actor Model
  * Copyright (c) 2019 Falko Schumann
  */
 
@@ -12,8 +12,6 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
-
-// TODO Rename project to actors?
 
 class App(val eventBus: EventBus = EventBus.default()) : Application() {
 
@@ -31,7 +29,7 @@ class App(val eventBus: EventBus = EventBus.default()) : Application() {
         eventBus.registerActor(counterViewController)
 
         primaryStage.scene = Scene(root)
-        primaryStage.title = "Counter - Event Bus"
+        primaryStage.title = "Counter - Actor Model"
         primaryStage.show()
     }
 }
