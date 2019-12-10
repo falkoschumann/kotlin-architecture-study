@@ -13,6 +13,8 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 
+// TODO Rename project to actors?
+
 class App(val eventBus: EventBus = EventBus.default()) : Application() {
 
     internal lateinit var counterActor: CounterActor
