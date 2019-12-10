@@ -6,29 +6,20 @@
 package de.muspellheim.counter
 
 import de.muspellheim.eventbus.SimpleActor
-import java.lang.Integer.max
 
 /** A simple domain object as actor. */
-class CounterActor : SimpleActor("Counter Actor") {
-
-    // TODO An actor is an wrapper for an domain object !!
-
-    private var value = 0
+class CounterActor(val counter: Counter) : SimpleActor("Counter Actor") {
 
     override fun work(message: Any) {
         when (message) {
-            is IncreaseCounterAction -> increase()
-            is DecreaseCounterAction -> decrease()
+            is IncreaseCounterAction -> {
+                counter.increase()
+                outbox(CounterUpdatedEvent(counter.value))
+            }
+            is DecreaseCounterAction -> {
+                counter.decrease()
+                outbox(CounterUpdatedEvent(counter.value))
+            }
         }
-    }
-
-    private fun increase() {
-        value++
-        outbox(CounterUpdatedEvent(value))
-    }
-
-    private fun decrease() {
-        value = max(0, value - 1)
-        outbox(CounterUpdatedEvent(value))
     }
 }

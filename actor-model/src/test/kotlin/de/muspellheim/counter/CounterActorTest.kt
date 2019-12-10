@@ -19,7 +19,8 @@ class CounterActorTest {
     @BeforeEach
     fun setUp() {
         //  Given
-        fixture = CounterActor()
+        val counter = Counter()
+        fixture = CounterActor(counter)
         fixture.outbox += { event = it }
     }
 

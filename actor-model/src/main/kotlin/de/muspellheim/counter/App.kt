@@ -18,7 +18,8 @@ class App(val eventBus: EventBus = EventBus.default()) : Application() {
     internal lateinit var counterActor: CounterActor
 
     override fun init() {
-        counterActor = CounterActor()
+        val counter = Counter()
+        counterActor = CounterActor(counter)
         eventBus.registerActor(counterActor)
     }
 

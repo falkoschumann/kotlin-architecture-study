@@ -27,7 +27,8 @@ class CounterViewControllerTest {
         JavaFxActor.isTesting = true
 
         fixture = CounterViewController()
-        val counterActor = CounterActor()
+        val counter = Counter()
+        val counterActor = CounterActor(counter)
 
         fixture.outbox += { counterActor.receive(it!!) }
         counterActor.outbox += { fixture.receive(it!!) }
