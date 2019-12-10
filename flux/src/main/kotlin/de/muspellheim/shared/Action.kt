@@ -18,12 +18,6 @@ class Action<T> {
     }
 
     operator fun invoke(message: T? = null) {
-        listeners.forEach {
-            try {
-                it(message)
-            } catch (e: Exception) {
-                Thread.currentThread().uncaughtExceptionHandler.uncaughtException(Thread.currentThread(), e)
-            }
-        }
+        listeners.forEach { it(message) }
     }
 }
