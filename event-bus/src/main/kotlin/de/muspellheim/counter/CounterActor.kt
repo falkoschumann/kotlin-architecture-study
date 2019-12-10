@@ -11,6 +11,8 @@ import java.lang.Integer.max
 /** A simple domain object as actor. */
 class CounterActor : SimpleActor("Counter Actor") {
 
+    // TODO An actor is an wrapper for an domain object !!
+
     private var value = 0
 
     override fun work(message: Any) {
