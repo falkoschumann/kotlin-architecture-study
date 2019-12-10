@@ -26,11 +26,11 @@ class CounterViewController : JavaFxActor() {
         private set(value) = descreaseDisableProperty.set(value)
 
     fun increase() {
-        outbox.send(IncreaseCounterAction())
+        outbox(IncreaseCounterAction())
     }
 
     fun decrease() {
-        outbox.send(DecreaseCounterAction())
+        outbox(DecreaseCounterAction())
     }
 
     override fun work(message: Any) {

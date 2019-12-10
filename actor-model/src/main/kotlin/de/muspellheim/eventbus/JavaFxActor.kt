@@ -9,7 +9,7 @@ import javafx.application.Platform
 
 abstract class JavaFxActor : Actor {
 
-    override val outbox = Event<Any>()
+    override val outbox = Action<Any>()
 
     override fun receive(message: Any) {
         when {

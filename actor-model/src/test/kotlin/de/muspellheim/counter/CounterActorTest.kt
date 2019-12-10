@@ -20,7 +20,7 @@ class CounterActorTest {
     fun setUp() {
         //  Given
         fixture = CounterActor()
-        fixture.outbox.addHandler { event = it }
+        fixture.outbox += { event = it }
     }
 
     @Test

@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue
 /** Base class for an actor with worker thread for inbox. */
 abstract class SimpleActor(threadName: String) : Actor {
 
-    override val outbox = Event<Any>()
+    override val outbox = Action<Any>()
 
     private val inbox = LinkedBlockingQueue<Any>()
 

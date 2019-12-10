@@ -8,7 +8,7 @@ package de.muspellheim.eventbus
 /** An actor. */
 interface Actor {
 
-    val outbox: Event<Any>
+    val outbox: Action<Any>
 
     fun receive(message: Any)
     fun work(message: Any)
@@ -16,5 +16,5 @@ interface Actor {
 
 fun EventBus.registerActor(actor: Actor) {
     this.subscribe { actor.receive(it) }
-    actor.outbox.addHandler { this.publish(it) }
+    actor.outbox += { this.publish(it!!) }
 }

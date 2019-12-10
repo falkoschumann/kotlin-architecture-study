@@ -24,11 +24,11 @@ class CounterActor : SimpleActor("Counter Actor") {
 
     private fun increase() {
         value++
-        outbox.send(CounterUpdatedEvent(value))
+        outbox(CounterUpdatedEvent(value))
     }
 
     private fun decrease() {
         value = max(0, value - 1)
-        outbox.send(CounterUpdatedEvent(value))
+        outbox(CounterUpdatedEvent(value))
     }
 }

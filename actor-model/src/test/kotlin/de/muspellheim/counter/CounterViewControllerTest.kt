@@ -29,8 +29,8 @@ class CounterViewControllerTest {
         fixture = CounterViewController()
         val counterActor = CounterActor()
 
-        fixture.outbox.addHandler { counterActor.receive(it) }
-        counterActor.outbox.addHandler { fixture.receive(it) }
+        fixture.outbox += { counterActor.receive(it!!) }
+        counterActor.outbox += { fixture.receive(it!!) }
     }
 
     @Test
