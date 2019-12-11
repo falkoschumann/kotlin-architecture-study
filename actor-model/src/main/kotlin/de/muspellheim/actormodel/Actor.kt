@@ -17,6 +17,10 @@ interface Actor {
 }
 
 fun EventBus.registerActor(actor: Actor) {
-    this.subscribe { actor.receive(it) }
-    actor.outbox += { this.publish(it!!) }
+    this.subscribe {
+        actor.receive(it)
+    }
+    actor.outbox += {
+        this.publish(it!!)
+    }
 }

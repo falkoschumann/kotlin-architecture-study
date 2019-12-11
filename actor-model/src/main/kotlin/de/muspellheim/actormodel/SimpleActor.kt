@@ -19,11 +19,7 @@ abstract class SimpleActor(threadName: String) : Actor {
         while (!Thread.currentThread().isInterrupted) {
             try {
                 val input = inbox.take()
-                try {
-                    work(input)
-                } catch (e: Exception) {
-                    handleException(e)
-                }
+                work(input)
             } catch (e: InterruptedException) {
                 Thread.currentThread().interrupt()
             }
@@ -42,11 +38,5 @@ abstract class SimpleActor(threadName: String) : Actor {
         } catch (e: InterruptedException) {
             Thread.currentThread().interrupt()
         }
-    }
-
-    private fun handleException(e: Exception) {
-        Thread.currentThread()
-            .uncaughtExceptionHandler
-            .uncaughtException(Thread.currentThread(), e)
     }
 }

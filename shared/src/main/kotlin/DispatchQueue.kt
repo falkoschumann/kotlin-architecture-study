@@ -33,10 +33,6 @@ object DispatchQueue {
                         tasks.take().run()
                     } catch (e: InterruptedException) {
                         Thread.currentThread().interrupt()
-                    } catch (e: Exception) {
-                        Thread.currentThread()
-                            .uncaughtExceptionHandler
-                            .uncaughtException(Thread.currentThread(), e)
                     }
                 }
             }
@@ -57,12 +53,18 @@ object DispatchQueue {
     var isTesting = false
 
     fun application(task: () -> Unit) {
-        if (isTesting) task()
-        else applicationExecutor.execute(task)
+        if (isTesting) {
+            task()
+        } else {
+            applicationExecutor.execute(task)
+        }
     }
 
     fun background(task: () -> Unit) {
-        if (isTesting) task()
-        else backgroundExecutor.execute(task)
+        if (isTesting) {
+            task()
+        } else {
+            backgroundExecutor.execute(task)
+        }
     }
 }

@@ -18,6 +18,8 @@ class Action<T> {
     }
 
     operator fun invoke(message: T? = null) {
-        listeners.forEach { it(message) }
+        listeners.forEach {
+            it(message)
+        }
     }
 }

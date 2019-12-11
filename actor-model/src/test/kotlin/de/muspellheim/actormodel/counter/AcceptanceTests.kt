@@ -6,16 +6,20 @@
 package de.muspellheim.actormodel.counter
 
 import de.muspellheim.actormodel.EventBus
-import de.muspellheim.actormodel.JavaFxActor
 import de.muspellheim.actormodel.registerActor
+import de.muspellheim.shared.JavaFxExtension
 import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 /** Acceptance tests. */
+@ExtendWith(JavaFxExtension::class)
+@Tag("it")
 class AcceptanceTests {
 
     private lateinit var counterViewController: CounterViewController
@@ -26,8 +30,6 @@ class AcceptanceTests {
         // Given
         //
 
-        JavaFxActor.isTesting = true
-
         val eventBus = EventBus("Acceptance Testing")
         val app = App(eventBus)
         app.init()
@@ -37,7 +39,7 @@ class AcceptanceTests {
     }
 
     @Test
-    fun `intial counter state`() {
+    fun `intial counter view state`() {
         // Then
         assertEquals("0", counterViewController.value)
         assertTrue(counterViewController.descreaseDisable)
@@ -50,7 +52,7 @@ class AcceptanceTests {
         counterViewController.increase()
 
         // Then
-        TimeUnit.MILLISECONDS.sleep(500)
+        TimeUnit.SECONDS.sleep(3)
         assertEquals("2", counterViewController.value)
         assertFalse(counterViewController.descreaseDisable)
     }
@@ -65,7 +67,7 @@ class AcceptanceTests {
         counterViewController.decrease()
 
         // Then
-        TimeUnit.MILLISECONDS.sleep(500)
+        TimeUnit.SECONDS.sleep(4)
         assertEquals("1", counterViewController.value)
         assertFalse(counterViewController.descreaseDisable)
     }
@@ -81,7 +83,7 @@ class AcceptanceTests {
         counterViewController.decrease()
 
         // Then
-        TimeUnit.MILLISECONDS.sleep(500)
+        TimeUnit.SECONDS.sleep(5)
         assertEquals("0", counterViewController.value)
         assertTrue(counterViewController.descreaseDisable)
     }

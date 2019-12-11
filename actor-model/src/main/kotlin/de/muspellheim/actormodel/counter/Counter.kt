@@ -5,16 +5,20 @@
 
 package de.muspellheim.actormodel.counter
 
+import java.util.concurrent.TimeUnit
+
 class Counter {
 
     var value = 0
         private set
 
     fun increase() {
+        TimeUnit.SECONDS.sleep(1)
         value++
     }
 
     fun decrease() {
+        TimeUnit.SECONDS.sleep(1)
         value = Integer.max(0, value - 1)
     }
 }

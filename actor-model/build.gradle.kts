@@ -12,6 +12,6 @@ dependencies {
 }
 
 application {
-    mainClassName = "de.muspellheim.counter.AppKt"
+    mainClassName = "de.muspellheim.actormodel.counter.AppKt"
 }
 

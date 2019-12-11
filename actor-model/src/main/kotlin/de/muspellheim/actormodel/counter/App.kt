@@ -13,13 +13,11 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 
-class App(val eventBus: EventBus = EventBus.default()) : Application() {
-
-    internal lateinit var counterActor: CounterActor
+class App(private val eventBus: EventBus = EventBus.default()) : Application() {
 
     override fun init() {
         val counter = Counter()
-        counterActor = CounterActor(counter)
+        val counterActor = CounterActor(counter)
         eventBus.registerActor(counterActor)
     }
 

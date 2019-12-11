@@ -10,7 +10,7 @@ import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
 
-/** A supervising controller. */
+/** An actor controller. */
 class CounterViewController : JavaFxActor() {
 
     private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "0") }
