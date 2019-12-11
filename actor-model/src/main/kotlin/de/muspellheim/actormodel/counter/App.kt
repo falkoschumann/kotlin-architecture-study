@@ -22,14 +22,18 @@ class App(private val eventBus: EventBus = EventBus.default()) : Application() {
     }
 
     override fun start(primaryStage: Stage) {
-        val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
-        val root = loader.load<Parent>()
-        val counterViewController = loader.getController<CounterViewController>()
-        eventBus.registerActor(counterViewController)
-
-        primaryStage.scene = Scene(root)
+        val root = createRoot()
+        primaryStage.scene = Scene(root.first)
         primaryStage.title = "Counter - Actor Model"
         primaryStage.show()
+    }
+
+    internal fun createRoot(): Pair<Parent, CounterViewController> {
+        val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
+        val view = loader.load<Parent>()
+        val controller = loader.getController<CounterViewController>()
+        eventBus.registerActor(controller)
+        return Pair(view, controller)
     }
 }
 

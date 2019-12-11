@@ -6,7 +6,6 @@
 package de.muspellheim.actormodel.counter
 
 import de.muspellheim.actormodel.EventBus
-import de.muspellheim.actormodel.registerActor
 import de.muspellheim.shared.JavaFxExtension
 import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -18,8 +17,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 
 /** Acceptance tests. */
-@ExtendWith(JavaFxExtension::class)
 @Tag("it")
+@ExtendWith(JavaFxExtension::class)
 class AcceptanceTests {
 
     private lateinit var counterViewController: CounterViewController
@@ -33,9 +32,7 @@ class AcceptanceTests {
         val eventBus = EventBus("Acceptance Testing")
         val app = App(eventBus)
         app.init()
-
-        counterViewController = CounterViewController()
-        eventBus.registerActor(counterViewController)
+        counterViewController = app.createRoot().second
     }
 
     @Test
