@@ -19,7 +19,7 @@ abstract class Store(val dispatcher: Dispatcher<Any>) {
         }
         protected set
 
-    val changed = Action<Unit>()
+    val onChanged = Action<Unit>()
 
     init {
         dispatchToken = dispatcher.register { invokeOnDispatch(it) }
@@ -34,7 +34,7 @@ abstract class Store(val dispatcher: Dispatcher<Any>) {
         isChanged = false
         onDispatch(payload)
         if (isChanged) {
-            changed()
+            onChanged()
         }
     }
 
