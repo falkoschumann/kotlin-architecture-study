@@ -4,4 +4,4 @@
  */
 
 rootProject.name = "architecture-study"
-include("mvvm", "actor-model", "flux")
+include("shared", "mvvm", "actor-model", "flux")

@@ -7,6 +7,10 @@ plugins {
     application
 }
 
+dependencies {
+    implementation(project(":shared"))
+}
+
 application {
-    mainClassName = "de.muspellheim.counter.AppKt"
+    mainClassName = "de.muspellheim.flux.counter.AppKt"
 }
