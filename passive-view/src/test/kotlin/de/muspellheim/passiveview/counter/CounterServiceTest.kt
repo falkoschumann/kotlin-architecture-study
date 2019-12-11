@@ -1,5 +1,5 @@
 /*
- * Architecture Study - Model View ViewModel
+ * Architecture Study - Passive View
  * Copyright (c) 2019 Falko Schumann
  */
 
