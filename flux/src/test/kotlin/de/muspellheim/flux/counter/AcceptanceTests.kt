@@ -5,7 +5,6 @@
 
 package de.muspellheim.flux.counter
 
-import de.muspellheim.shared.DispatchQueue
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -22,8 +21,6 @@ class AcceptanceTests {
         //
         // Given
         //
-
-        DispatchQueue.isTesting = true
 
         fixture = App()
         fixture.init()

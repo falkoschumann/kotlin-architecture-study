@@ -10,7 +10,7 @@ import javafx.beans.property.ReadOnlyBooleanWrapper
 import javafx.beans.property.ReadOnlyStringWrapper
 import javax.inject.Inject
 
-/** The view model interacts with the user through the user interface. */
+/** A view-model controller. */
 class CounterViewController @Inject constructor(private val counterService: CounterService) {
 
     private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "") }

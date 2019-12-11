@@ -35,7 +35,9 @@ class Dispatcher<T> {
         assert(!isDispatching) { "Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch." }
         isDispatching = true
         try {
-            callbacks.forEach { it.value(payload) }
+            callbacks.forEach {
+                it.value(payload)
+            }
         } finally {
             isDispatching = false
         }

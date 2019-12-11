@@ -14,14 +14,6 @@ object DispatchQueue {
 
     // TODO Replace with coroutine?
 
-    private val applicationExecutor = Executor {
-        if (Platform.isFxApplicationThread()) {
-            it.run()
-        } else {
-            Platform.runLater(it)
-        }
-    }
-
     private val backgroundExecutor = object : Executor {
 
         private val tasks = LinkedBlockingQueue<Runnable>()
@@ -50,21 +42,15 @@ object DispatchQueue {
         }
     }
 
-    var isTesting = false
-
     fun application(task: () -> Unit) {
-        if (isTesting) {
+        if (Platform.isFxApplicationThread()) {
             task()
         } else {
-            applicationExecutor.execute(task)
+            Platform.runLater(task)
         }
     }
 
     fun background(task: () -> Unit) {
-        if (isTesting) {
-            task()
-        } else {
-            backgroundExecutor.execute(task)
-        }
+        backgroundExecutor.execute(task)
     }
 }

@@ -6,7 +6,6 @@
 package de.muspellheim.flux.counter
 
 import de.muspellheim.flux.Dispatcher
-import de.muspellheim.shared.DispatchQueue
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -21,8 +20,6 @@ class CounterStoreTest {
         //
         //  Given
         //
-
-        DispatchQueue.isTesting = true
 
         val dispatcher = Dispatcher<Any>()
         fixture = CounterStore(dispatcher)

@@ -23,17 +23,19 @@ class App : Application() {
     internal lateinit var counterStore: CounterStore
     internal lateinit var counterActions: CounterActions
 
+    private lateinit var injector: Injector
+
     override fun init() {
         dispatcher = Dispatcher()
         counterStore = CounterStore(dispatcher)
         counterActions = CounterActions(dispatcher)
+
+        injector = createInjector()
     }
 
     override fun start(primaryStage: Stage) {
-        val injector = createInjector()
-        val root = createRoot(injector)
-
-        primaryStage.scene = Scene(root)
+        val root = createRoot()
+        primaryStage.scene = Scene(root.first)
         primaryStage.title = "Counter - Flux"
         primaryStage.show()
     }
@@ -49,10 +51,12 @@ class App : Application() {
         return Guice.createInjector(module)
     }
 
-    private fun createRoot(injector: Injector): Parent {
+    internal fun createRoot(): Pair<Parent, CounterViewController> {
         val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
         loader.controllerFactory = Callback { injector.getInstance(it) }
-        return loader.load()
+        val view = loader.load<Parent>()
+        val controller = loader.getController<CounterViewController>()
+        return Pair(view, controller)
     }
 }
 

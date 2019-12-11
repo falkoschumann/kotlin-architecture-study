@@ -11,7 +11,7 @@ import javafx.beans.property.ReadOnlyStringProperty
 import javafx.beans.property.ReadOnlyStringWrapper
 import javax.inject.Inject
 
-/** A view controller. */
+/** A supervising controller. */
 class CounterViewController @Inject constructor(
     private val counterStore: CounterStore,
     private val counterActions: CounterActions

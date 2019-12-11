@@ -23,18 +23,22 @@ class App : Application() {
 
     override fun init() {
         counterService = CounterService()
-
         injector = Guice.createInjector()
     }
 
     override fun start(primaryStage: Stage) {
-        val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
-        loader.controllerFactory = Callback { injector.getInstance(it) }
-        val root = loader.load<Parent>()
-
-        primaryStage.scene = Scene(root)
+        val root = createRoot()
+        primaryStage.scene = Scene(root.first)
         primaryStage.title = "Counter - MVVM"
         primaryStage.show()
+    }
+
+    fun createRoot(): Pair<Parent, CounterViewController> {
+        val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
+        loader.controllerFactory = Callback { injector.getInstance(it) }
+        val view = loader.load<Parent>()
+        val controller = loader.getController<CounterViewController>()
+        return Pair(view, controller)
     }
 }
 

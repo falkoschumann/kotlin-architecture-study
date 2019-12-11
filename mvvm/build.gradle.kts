@@ -12,5 +12,5 @@ dependencies {
 }
 
 application {
-    mainClassName = "de.muspellheim.counter.AppKt"
+    mainClassName = "de.muspellheim.mvvm.counter.AppKt"
 }
