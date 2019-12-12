@@ -6,24 +6,14 @@
 package de.muspellheim.actormodel.counter
 
 import de.muspellheim.actormodel.JavaFxActor
-import javafx.beans.property.ReadOnlyBooleanWrapper
-import javafx.beans.property.ReadOnlyStringProperty
-import javafx.beans.property.ReadOnlyStringWrapper
+import javafx.scene.control.Button
+import javafx.scene.control.Label
 
-/** An actor controller. */
+/** A passive view as actor controller. */
 class CounterViewController : JavaFxActor() {
 
-    private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "0") }
-    fun valueProperty(): ReadOnlyStringProperty = valueProperty.readOnlyProperty
-    var value: String
-        get() = valueProperty.get()
-        private set(value) = valueProperty.set(value)
-
-    private val descreaseDisableProperty by lazy { ReadOnlyBooleanWrapper(this, "descreaseDisable", true) }
-    fun descreaseDisableProperty() = descreaseDisableProperty.readOnlyProperty!!
-    var descreaseDisable: Boolean
-        get() = descreaseDisableProperty.get()
-        private set(value) = descreaseDisableProperty.set(value)
+    lateinit var decreaseButton: Button
+    lateinit var valueLabel: Label
 
     fun increase() {
         outbox(IncreaseCounterAction())
@@ -35,8 +25,8 @@ class CounterViewController : JavaFxActor() {
 
     override fun work(message: Any) {
         if (message is CounterUpdatedEvent) {
-            value = message.newValue.toString()
-            descreaseDisable = message.newValue <= 0
+            valueLabel.text = message.newValue.toString()
+            decreaseButton.isDisable = message.newValue <= 0
         }
     }
 }

@@ -18,7 +18,7 @@ class CounterViewController : CounterView {
             valueLabel.text = value
         }
 
-    override var descreaseDisable
+    override var isDescreaseDisable
         get() = decreaseButton.isDisabled
         set(value) {
             decreaseButton.isDisable = value

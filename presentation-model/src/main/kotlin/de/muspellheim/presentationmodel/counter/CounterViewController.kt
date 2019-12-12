@@ -10,7 +10,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javax.inject.Inject
 
-/** A passive view. */
+/** A supervising controller as view. */
 class CounterViewController @Inject constructor(private val model: CounterModel) {
 
     lateinit var decreaseButton: Button
@@ -23,11 +23,15 @@ class CounterViewController @Inject constructor(private val model: CounterModel)
     }
 
     fun increase() {
-        model.increase()
+        DispatchQueue.background {
+            model.increase()
+        }
     }
 
     fun decrease() {
-        model.decrease()
+        DispatchQueue.background {
+            model.decrease()
+        }
     }
 
     private fun updateState() {

@@ -7,6 +7,7 @@ package de.muspellheim.passiveview.counter
 
 import de.muspellheim.shared.DispatchQueue
 
+/** A controller for model and view. */
 class CounterController(val model: CounterService, val view: CounterView) {
 
     init {
@@ -35,6 +36,6 @@ class CounterController(val model: CounterService, val view: CounterView) {
 
     private fun updateState() {
         view.value = model.value.toString()
-        view.descreaseDisable = model.value <= 0
+        view.isDescreaseDisable = model.value <= 0
     }
 }

@@ -14,17 +14,13 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 import javafx.util.Callback
 
-/** The app builds and binds the components and services. */
+/** The app builds the root view. */
 class App : Application() {
 
     lateinit var injector: Injector
 
     override fun init() {
-        injector = createInjector()
-    }
-
-    private fun createInjector(): Injector {
-        return Guice.createInjector()
+        injector = Guice.createInjector()
     }
 
     override fun start(primaryStage: Stage) {
@@ -34,7 +30,7 @@ class App : Application() {
         primaryStage.show()
     }
 
-    fun createRoot(): Parent {
+    private fun createRoot(): Parent {
         val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
         loader.controllerFactory = Callback { injector.getInstance(it) }
         return loader.load<Parent>()

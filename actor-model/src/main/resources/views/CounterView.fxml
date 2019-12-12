@@ -16,8 +16,8 @@
     <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
     </padding>
-    <Button mnemonicParsing="false" onAction="#decrease" disable="${controller.descreaseDisable}" text="&lt;"/>
-    <Label alignment="CENTER" minWidth="120.0" text="${controller.value}" HBox.hgrow="ALWAYS">
+    <Button fx:id="decreaseButton" mnemonicParsing="false" onAction="#decrease" disable="true" text="&lt;"/>
+    <Label fx:id="valueLabel" alignment="CENTER" minWidth="120.0" text="0" HBox.hgrow="ALWAYS">
         <font>
             <Font size="25.0"/>
         </font>

@@ -5,7 +5,6 @@
 
 package de.muspellheim.mvvm.counter
 
-import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Injector
 import javafx.application.Application
@@ -15,25 +14,13 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 import javafx.util.Callback
 
-/** The app builds and binds the components and services. */
+/** The app builds the root view-model. */
 class App : Application() {
-
-    internal lateinit var counterService: CounterService
 
     private lateinit var injector: Injector
 
     override fun init() {
-        counterService = CounterService()
-        injector = createInjector()
-    }
-
-    private fun createInjector(): Injector {
-        val module = object : AbstractModule() {
-            override fun configure() {
-                bind(CounterService::class.java).toInstance(counterService)
-            }
-        }
-        return Guice.createInjector(module)
+        injector = Guice.createInjector()
     }
 
     override fun start(primaryStage: Stage) {

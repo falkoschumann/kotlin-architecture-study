@@ -37,7 +37,7 @@ class AcceptanceTests {
     fun `intial counter state`() {
         // Then
         assertEquals("0", counterControllerFixture.view.value)
-        assertTrue(counterControllerFixture.view.descreaseDisable)
+        assertTrue(counterControllerFixture.view.isDescreaseDisable)
     }
 
     @Test
@@ -49,7 +49,7 @@ class AcceptanceTests {
         // Then
         TimeUnit.SECONDS.sleep(3)
         assertEquals("2", counterControllerFixture.view.value)
-        assertFalse(counterControllerFixture.view.descreaseDisable)
+        assertFalse(counterControllerFixture.view.isDescreaseDisable)
     }
 
     @Test
@@ -64,7 +64,7 @@ class AcceptanceTests {
         // Then
         TimeUnit.SECONDS.sleep(4)
         assertEquals("1", counterControllerFixture.view.value)
-        assertFalse(counterControllerFixture.view.descreaseDisable)
+        assertFalse(counterControllerFixture.view.isDescreaseDisable)
     }
 
     @Test
@@ -80,6 +80,6 @@ class AcceptanceTests {
         // Then
         TimeUnit.SECONDS.sleep(5)
         assertEquals("0", counterControllerFixture.view.value)
-        assertTrue(counterControllerFixture.view.descreaseDisable)
+        assertTrue(counterControllerFixture.view.isDescreaseDisable)
     }
 }

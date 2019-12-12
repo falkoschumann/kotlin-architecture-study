@@ -7,8 +7,10 @@ package de.muspellheim.mvvm.counter
 
 import java.lang.Integer.max
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 /** A simple domain service with state. */
+@Singleton
 class CounterService {
 
     var value = 0

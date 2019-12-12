@@ -35,7 +35,7 @@ class CounterControllerTest {
     fun `intial counter state`() {
         // Then
         assertEquals("0", fixture.view.value)
-        assertTrue(fixture.view.descreaseDisable)
+        assertTrue(fixture.view.isDescreaseDisable)
     }
 
     @Test
@@ -47,7 +47,7 @@ class CounterControllerTest {
         // Then
         TimeUnit.SECONDS.sleep(3)
         assertEquals("2", fixture.view.value)
-        assertFalse(fixture.view.descreaseDisable)
+        assertFalse(fixture.view.isDescreaseDisable)
     }
 
     @Test
@@ -62,7 +62,7 @@ class CounterControllerTest {
         // Then
         TimeUnit.SECONDS.sleep(4)
         assertEquals("1", fixture.view.value)
-        assertFalse(fixture.view.descreaseDisable)
+        assertFalse(fixture.view.isDescreaseDisable)
     }
 
     @Test
@@ -78,14 +78,14 @@ class CounterControllerTest {
         // Then
         TimeUnit.SECONDS.sleep(5)
         assertEquals("0", fixture.view.value)
-        assertTrue(fixture.view.descreaseDisable)
+        assertTrue(fixture.view.isDescreaseDisable)
     }
 }
 
 private class CounterViewStub : CounterView {
 
     override var value = ""
-    override var descreaseDisable = false
+    override var isDescreaseDisable = false
 
     override val onIncrease = Action<Void>()
     override val onDecrease = Action<Void>()

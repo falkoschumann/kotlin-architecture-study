@@ -5,7 +5,6 @@
 
 package de.muspellheim.presentationmodel.counter
 
-import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -14,16 +13,20 @@ import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 
 /** Integration tests. */
-@Tag("it")
 class CounterModelTest {
 
     private lateinit var fixture: CounterModel
+
+    private var increased = false
+    private var decreased = false
 
     @BeforeEach
     fun setUp() {
         // Given
         val model = CounterService()
         fixture = CounterModel(model)
+        fixture.onIncreased += { increased = true }
+        fixture.onDecreased += { decreased = true }
     }
 
     @Test
@@ -31,6 +34,8 @@ class CounterModelTest {
         // Then
         assertEquals("0", fixture.value)
         assertTrue(fixture.isDescreaseDisable)
+        assertFalse(increased)
+        assertFalse(decreased)
     }
 
     @Test
@@ -40,9 +45,10 @@ class CounterModelTest {
         fixture.increase()
 
         // Then
-        TimeUnit.SECONDS.sleep(3)
         assertEquals("2", fixture.value)
         assertFalse(fixture.isDescreaseDisable)
+        assertTrue(increased)
+        assertFalse(decreased)
     }
 
     @Test
@@ -55,9 +61,10 @@ class CounterModelTest {
         fixture.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(4)
         assertEquals("1", fixture.value)
         assertFalse(fixture.isDescreaseDisable)
+        assertTrue(increased)
+        assertTrue(decreased)
     }
 
     @Test
@@ -71,8 +78,9 @@ class CounterModelTest {
         fixture.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(5)
         assertEquals("0", fixture.value)
         assertTrue(fixture.isDescreaseDisable)
+        assertTrue(increased)
+        assertTrue(decreased)
     }
 }

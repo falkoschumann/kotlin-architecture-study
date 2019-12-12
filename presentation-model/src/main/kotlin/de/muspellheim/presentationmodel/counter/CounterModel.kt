@@ -6,9 +6,9 @@
 package de.muspellheim.presentationmodel.counter
 
 import de.muspellheim.shared.Action
-import de.muspellheim.shared.DispatchQueue
 import javax.inject.Inject
 
+/** A presentation model. */
 class CounterModel @Inject constructor(private val model: CounterService) {
 
     val value: String
@@ -21,16 +21,12 @@ class CounterModel @Inject constructor(private val model: CounterService) {
     val onDecreased = Action<Void>()
 
     fun increase() {
-        DispatchQueue.background {
-            model.increment()
-            onIncreased()
-        }
+        model.increment()
+        onIncreased()
     }
 
     fun decrease() {
-        DispatchQueue.background {
-            model.decrement()
-            onDecreased()
-        }
+        model.decrement()
+        onDecreased()
     }
 }

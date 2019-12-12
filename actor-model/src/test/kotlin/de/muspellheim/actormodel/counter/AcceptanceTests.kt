@@ -38,8 +38,8 @@ class AcceptanceTests {
     @Test
     fun `intial counter view state`() {
         // Then
-        assertEquals("0", counterViewController.value)
-        assertTrue(counterViewController.descreaseDisable)
+        assertEquals("0", counterViewController.valueLabel.text)
+        assertTrue(counterViewController.decreaseButton.isDisabled)
     }
 
     @Test
@@ -50,8 +50,8 @@ class AcceptanceTests {
 
         // Then
         TimeUnit.SECONDS.sleep(3)
-        assertEquals("2", counterViewController.value)
-        assertFalse(counterViewController.descreaseDisable)
+        assertEquals("2", counterViewController.valueLabel.text)
+        assertFalse(counterViewController.decreaseButton.isDisabled)
     }
 
     @Test
@@ -65,8 +65,8 @@ class AcceptanceTests {
 
         // Then
         TimeUnit.SECONDS.sleep(4)
-        assertEquals("1", counterViewController.value)
-        assertFalse(counterViewController.descreaseDisable)
+        assertEquals("1", counterViewController.valueLabel.text)
+        assertFalse(counterViewController.decreaseButton.isDisabled)
     }
 
     @Test
@@ -81,7 +81,7 @@ class AcceptanceTests {
 
         // Then
         TimeUnit.SECONDS.sleep(5)
-        assertEquals("0", counterViewController.value)
-        assertTrue(counterViewController.descreaseDisable)
+        assertEquals("0", counterViewController.valueLabel.text)
+        assertTrue(counterViewController.decreaseButton.isDisabled)
     }
 }

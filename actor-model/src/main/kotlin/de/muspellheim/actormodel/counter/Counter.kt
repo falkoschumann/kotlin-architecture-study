@@ -7,6 +7,7 @@ package de.muspellheim.actormodel.counter
 
 import java.util.concurrent.TimeUnit
 
+/** A simple domain model with state. */
 class Counter {
 
     var value = 0

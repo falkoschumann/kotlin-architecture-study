@@ -13,6 +13,7 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 
+/** The app builds and connects the actors. */
 class App(private val eventBus: EventBus = EventBus.default()) : Application() {
 
     override fun init() {
