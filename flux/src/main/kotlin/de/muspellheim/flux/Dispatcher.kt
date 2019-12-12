@@ -6,21 +6,21 @@
 package de.muspellheim.flux
 
 typealias DispatchToken = String
-typealias Callback<T> = (payload: T) -> Unit
+typealias Callback = (payload: Any) -> Unit
 
 private const val PREFIX = "ID_"
 
 /** Class of the central dispatcher. */
-class Dispatcher<T> {
+class Dispatcher {
 
     var isDispatching = false
         private set
 
     private var lastId = 1
 
-    private var callbacks = mapOf<DispatchToken, Callback<T>>()
+    private var callbacks = mapOf<DispatchToken, Callback>()
 
-    fun register(callback: Callback<T>): DispatchToken {
+    fun register(callback: Callback): DispatchToken {
         val id = PREFIX + lastId++
         callbacks = callbacks + Pair(id, callback)
         return id
@@ -31,7 +31,7 @@ class Dispatcher<T> {
         callbacks = callbacks - id
     }
 
-    fun dispatch(payload: T) {
+    fun dispatch(payload: Any) {
         assert(!isDispatching) { "Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch." }
         isDispatching = true
         try {

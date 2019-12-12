@@ -6,9 +6,8 @@
 package de.muspellheim.flux.counter
 
 import de.muspellheim.shared.DispatchQueue
-import javafx.beans.property.ReadOnlyBooleanWrapper
-import javafx.beans.property.ReadOnlyStringProperty
-import javafx.beans.property.ReadOnlyStringWrapper
+import javafx.scene.control.Button
+import javafx.scene.control.Label
 import javax.inject.Inject
 
 /** A supervising controller. */
@@ -17,19 +16,10 @@ class CounterViewController @Inject constructor(
     private val counterActions: CounterActions
 ) {
 
-    private val valueProperty by lazy { ReadOnlyStringWrapper(this, "value", "") }
-    fun valueProperty(): ReadOnlyStringProperty = valueProperty.readOnlyProperty
-    var value: String
-        get() = valueProperty.get()
-        private set(value) = valueProperty.set(value)
+    lateinit var decreaseButton: Button
+    lateinit var valueLabel: Label
 
-    private val descreaseDisableProperty by lazy { ReadOnlyBooleanWrapper(this, "descreaseDisable", true) }
-    fun descreaseDisableProperty() = descreaseDisableProperty.readOnlyProperty!!
-    var descreaseDisable: Boolean
-        get() = descreaseDisableProperty.get()
-        private set(value) = descreaseDisableProperty.set(value)
-
-    init {
+    fun initialize() {
         counterStore.onChanged += { update() }
         update()
     }
@@ -44,8 +34,8 @@ class CounterViewController @Inject constructor(
 
     private fun update() {
         DispatchQueue.application {
-            value = counterStore.state.value.toString()
-            descreaseDisable = !counterStore.state.isDecreasable
+            valueLabel.text = counterStore.state.value.toString()
+            decreaseButton.isDisable = !counterStore.state.isDecreasable
         }
     }
 }

@@ -5,7 +5,7 @@
 
 package de.muspellheim.flux
 
-abstract class ReduceStore<T : Any>(val initialState: T, dispatcher: Dispatcher<Any>) : Store(dispatcher) {
+abstract class ReduceStore<T : Any>(val initialState: T, dispatcher: Dispatcher) : Store(dispatcher) {
 
     var state: T = initialState
 

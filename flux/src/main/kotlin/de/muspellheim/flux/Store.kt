@@ -8,7 +8,7 @@ package de.muspellheim.flux
 import de.muspellheim.shared.Action
 
 /** Base class of a store. */
-abstract class Store(val dispatcher: Dispatcher<Any>) {
+abstract class Store(val dispatcher: Dispatcher) {
 
     val dispatchToken: DispatchToken
 
@@ -17,7 +17,7 @@ abstract class Store(val dispatcher: Dispatcher<Any>) {
             assert(dispatcher.isDispatching) { "$javaClass.isChanged: Must be invoked while dispatching." }
             return field
         }
-        protected set
+        private set
 
     val onChanged = Action<Unit>()
 

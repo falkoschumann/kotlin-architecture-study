@@ -19,17 +19,12 @@ import javafx.util.Callback
 /** The app builds stores and root view. */
 class App : Application() {
 
-    internal lateinit var dispatcher: Dispatcher<Any>
-    internal lateinit var counterStore: CounterStore
-    internal lateinit var counterActions: CounterActions
+    internal lateinit var dispatcher: Dispatcher
 
     private lateinit var injector: Injector
 
     override fun init() {
         dispatcher = Dispatcher()
-        counterStore = CounterStore(dispatcher)
-        counterActions = CounterActions(dispatcher)
-
         injector = createInjector()
     }
 
@@ -44,8 +39,6 @@ class App : Application() {
         val module = object : AbstractModule() {
             override fun configure() {
                 bind(Dispatcher::class.java).toInstance(dispatcher)
-                bind(CounterStore::class.java).toInstance(counterStore)
-                bind(CounterActions::class.java).toInstance(counterActions)
             }
         }
         return Guice.createInjector(module)
