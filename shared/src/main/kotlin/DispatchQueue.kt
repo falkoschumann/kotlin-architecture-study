@@ -13,6 +13,7 @@ import javafx.application.Platform
 object DispatchQueue {
 
     // TODO Replace with coroutine?
+    // TODO Kurzschluss durch isTesting wieder einführen
 
     private val backgroundExecutor = object : Executor {
 

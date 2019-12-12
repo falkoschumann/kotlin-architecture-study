@@ -1,11 +1,10 @@
 /*
- * Architecture Study - Model View ViewModel
+ * Architecture Study - Presentation Model
  * Copyright (c) 2019 Falko Schumann
  */
 
-package de.muspellheim.mvvm.counter
+package de.muspellheim.presentationmodel.counter
 
-import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Injector
 import javafx.application.Application
@@ -18,37 +17,27 @@ import javafx.util.Callback
 /** The app builds and binds the components and services. */
 class App : Application() {
 
-    internal lateinit var counterService: CounterService
-
-    private lateinit var injector: Injector
+    lateinit var injector: Injector
 
     override fun init() {
-        counterService = CounterService()
         injector = createInjector()
     }
 
     private fun createInjector(): Injector {
-        val module = object : AbstractModule() {
-            override fun configure() {
-                bind(CounterService::class.java).toInstance(counterService)
-            }
-        }
-        return Guice.createInjector(module)
+        return Guice.createInjector()
     }
 
     override fun start(primaryStage: Stage) {
         val root = createRoot()
-        primaryStage.scene = Scene(root.first)
-        primaryStage.title = "Counter - MVVM"
+        primaryStage.scene = Scene(root)
+        primaryStage.title = "Counter - Presentation Model"
         primaryStage.show()
     }
 
-    fun createRoot(): Pair<Parent, CounterViewController> {
+    fun createRoot(): Parent {
         val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
         loader.controllerFactory = Callback { injector.getInstance(it) }
-        val view = loader.load<Parent>()
-        val controller = loader.getController<CounterViewController>()
-        return Pair(view, controller)
+        return loader.load<Parent>()
     }
 }
 
