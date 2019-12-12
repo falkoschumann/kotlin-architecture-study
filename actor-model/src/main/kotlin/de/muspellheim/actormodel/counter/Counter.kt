@@ -13,12 +13,12 @@ class Counter {
     var value = 0
         private set
 
-    fun increase() {
+    fun increase(amount: Int = 1) {
         TimeUnit.SECONDS.sleep(1)
         value++
     }
 
-    fun decrease() {
+    fun decrease(amount: Int = 1) {
         TimeUnit.SECONDS.sleep(1)
         value = Integer.max(0, value - 1)
     }

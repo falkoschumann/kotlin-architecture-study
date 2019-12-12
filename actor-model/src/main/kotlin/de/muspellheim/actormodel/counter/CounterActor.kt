@@ -13,11 +13,11 @@ class CounterActor(private val counter: Counter) : SimpleActor("Counter Actor") 
     override fun work(message: Any) {
         when (message) {
             is IncreaseCounterAction -> {
-                counter.increase()
+                counter.increase(message.amount)
                 outbox(CounterUpdatedEvent(counter.value))
             }
             is DecreaseCounterAction -> {
-                counter.decrease()
+                counter.decrease(message.amount)
                 outbox(CounterUpdatedEvent(counter.value))
             }
         }
