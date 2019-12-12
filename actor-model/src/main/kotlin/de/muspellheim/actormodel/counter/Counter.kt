@@ -15,11 +15,11 @@ class Counter {
 
     fun increase(amount: Int = 1) {
         TimeUnit.SECONDS.sleep(1)
-        value++
+        value += amount
     }
 
     fun decrease(amount: Int = 1) {
         TimeUnit.SECONDS.sleep(1)
-        value = Integer.max(0, value - 1)
+        value = Integer.max(0, value - amount)
     }
 }
