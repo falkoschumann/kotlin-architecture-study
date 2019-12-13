@@ -7,6 +7,8 @@ package de.muspellheim.shared
 
 class Action<T> {
 
+    // TODO change <T?> to <T>
+
     private var listeners = listOf<(T?) -> Unit>()
 
     operator fun plusAssign(listener: (T?) -> Unit) {

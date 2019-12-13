@@ -21,7 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(JavaFxExtension::class)
 class CounterViewControllerTest {
 
-    private lateinit var fixture: CounterViewController
+    private lateinit var fixture: CounterReduceViewController
 
     @BeforeEach
     fun setUp() {
@@ -29,19 +29,19 @@ class CounterViewControllerTest {
         // Given
         //
 
-        val dispatcher = Dispatcher<Any>()
+        val dispatcher = Dispatcher()
 
-        val store = CounterStore(dispatcher)
+        val store = CounterReduceStore(dispatcher)
         val actions = CounterActions(dispatcher)
-        fixture = CounterViewController(store, actions)
+        fixture = CounterReduceViewController(store, actions)
     }
 
     @Test
     fun `intial counter state`() {
         // Then
         TimeUnit.MILLISECONDS.sleep(200)
-        assertEquals("0", fixture.value)
-        assertTrue(fixture.descreaseDisable)
+        assertEquals("0", fixture.valueLabel.text)
+        assertTrue(fixture.decreaseButton.isDisabled)
     }
 
     @Test
@@ -52,8 +52,8 @@ class CounterViewControllerTest {
 
         // Then
         TimeUnit.SECONDS.sleep(3)
-        assertEquals("2", fixture.value)
-        assertFalse(fixture.descreaseDisable)
+        assertEquals("2", fixture.valueLabel.text)
+        assertFalse(fixture.decreaseButton.isDisabled)
     }
 
     @Test
@@ -67,8 +67,8 @@ class CounterViewControllerTest {
 
         // Then
         TimeUnit.SECONDS.sleep(4)
-        assertEquals("1", fixture.value)
-        assertFalse(fixture.descreaseDisable)
+        assertEquals("1", fixture.valueLabel.text)
+        assertFalse(fixture.decreaseButton.isDisabled)
     }
 
     @Test
@@ -83,7 +83,7 @@ class CounterViewControllerTest {
 
         // Then
         TimeUnit.SECONDS.sleep(5)
-        assertEquals("0", fixture.value)
-        assertTrue(fixture.descreaseDisable)
+        assertEquals("0", fixture.valueLabel)
+        assertTrue(fixture.decreaseButton.isDisabled)
     }
 }

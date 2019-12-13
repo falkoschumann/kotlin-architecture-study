@@ -11,8 +11,8 @@ import javafx.scene.control.Label
 import javax.inject.Inject
 
 /** A supervising controller. */
-class CounterViewController @Inject constructor(
-    private val counterStore: CounterStore,
+class CounterReduceViewController @Inject constructor(
+    private val counterStore: CounterReduceStore,
     private val counterActions: CounterActions
 ) {
 
@@ -34,8 +34,8 @@ class CounterViewController @Inject constructor(
 
     private fun update() {
         DispatchQueue.application {
-            valueLabel.text = counterStore.value.toString()
-            decreaseButton.isDisable = !counterStore.isDecreasable
+            valueLabel.text = counterStore.state.value.toString()
+            decreaseButton.isDisable = !counterStore.state.isDecreasable
         }
     }
 }

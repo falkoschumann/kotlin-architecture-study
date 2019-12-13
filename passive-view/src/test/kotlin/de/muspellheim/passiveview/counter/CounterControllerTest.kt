@@ -66,7 +66,7 @@ class CounterControllerTest {
     }
 
     @Test
-    fun `counter can not be negative`() {
+    fun `counter should not be negative`() {
         //  Given
         fixture.view.onIncrease()
         fixture.view.onIncrease()
@@ -77,6 +77,17 @@ class CounterControllerTest {
 
         // Then
         TimeUnit.SECONDS.sleep(5)
+        assertEquals("0", fixture.view.value)
+        assertTrue(fixture.view.isDescreaseDisable)
+    }
+
+    @Test
+    fun `counter can not be negative`() {
+        // When
+        fixture.view.onDecrease()
+
+        // Then
+        TimeUnit.SECONDS.sleep(2)
         assertEquals("0", fixture.view.value)
         assertTrue(fixture.view.isDescreaseDisable)
     }

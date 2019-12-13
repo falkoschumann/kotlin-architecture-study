@@ -7,13 +7,18 @@ package de.muspellheim.flux.counter
 
 import de.muspellheim.flux.Dispatcher
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.util.concurrent.TimeUnit
 
 /** Unit tests. */
 class CounterStoreTest {
 
     private lateinit var fixture: CounterStore
+
+    private lateinit var dispatcher: Dispatcher
 
     @BeforeEach
     fun setUp() {
@@ -21,61 +26,76 @@ class CounterStoreTest {
         //  Given
         //
 
-        val dispatcher = Dispatcher<Any>()
+        dispatcher = Dispatcher()
         fixture = CounterStore(dispatcher)
     }
 
     @Test
     fun `intial counter state`() {
         // Then
-        assertEquals(Counter(value = 0, isDecreasable = false), fixture.state)
+        assertEquals(0, fixture.value)
+        assertFalse(fixture.isDecreasable)
     }
 
     @Test
     fun `increment counter`() {
         // Given
-        val oldState = Counter(value = 1, isDecreasable = true)
+        dispatcher.dispatch(IncreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
 
         // When
-        val newState = fixture.reduce(oldState, IncreaseCounterAction())
+        dispatcher.dispatch(IncreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
 
         // Then
-        assertEquals(Counter(value = 2, isDecreasable = true), newState)
+        assertEquals(2, fixture.value)
+        assertTrue(fixture.isDecreasable)
     }
 
     @Test
     fun `decrement counter`() {
         // Given
-        val oldState = Counter(value = 2, isDecreasable = true)
+        dispatcher.dispatch(IncreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
+        dispatcher.dispatch(IncreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
 
         // When
-        val newState = fixture.reduce(oldState, DecreaseCounterAction())
+        dispatcher.dispatch(DecreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
 
         // Then
-        assertEquals(Counter(value = 1, isDecreasable = true), newState)
+        assertEquals(1, fixture.value)
+        assertTrue(fixture.isDecreasable)
     }
 
     @Test
     fun `counter should not be negative`() {
         // Given
-        val oldState = Counter(value = 1, isDecreasable = true)
+        dispatcher.dispatch(IncreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
+        dispatcher.dispatch(IncreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
 
         // When
-        val newState = fixture.reduce(oldState, DecreaseCounterAction())
+        dispatcher.dispatch(DecreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
+        dispatcher.dispatch(DecreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
 
         // Then
-        assertEquals(Counter(value = 0, isDecreasable = false), newState)
+        assertEquals(0, fixture.value)
+        assertFalse(fixture.isDecreasable)
     }
 
     @Test
     fun `counter can not be negative`() {
-        // Given
-        val oldState = Counter(value = 0, isDecreasable = false)
-
         // When
-        val newState = fixture.reduce(oldState, DecreaseCounterAction())
+        dispatcher.dispatch(DecreaseCounterAction())
+        TimeUnit.MILLISECONDS.sleep(1200)
 
         // Then
-        assertEquals(Counter(value = 0, isDecreasable = false), newState)
+        assertEquals(0, fixture.value)
+        assertFalse(fixture.isDecreasable)
     }
 }

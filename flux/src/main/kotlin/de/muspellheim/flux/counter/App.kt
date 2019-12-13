@@ -20,8 +20,7 @@ import javafx.util.Callback
 class App : Application() {
 
     internal lateinit var dispatcher: Dispatcher
-
-    private lateinit var injector: Injector
+    internal lateinit var injector: Injector
 
     override fun init() {
         dispatcher = Dispatcher()

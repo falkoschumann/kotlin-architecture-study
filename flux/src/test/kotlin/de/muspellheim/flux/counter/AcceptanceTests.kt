@@ -15,7 +15,8 @@ import org.junit.jupiter.api.Test
 class AcceptanceTests {
 
     private lateinit var fixture: App
-
+    private lateinit var counterStore: CounterReduceStore
+    private lateinit var counterActions: CounterActions
     @BeforeEach
     fun setUp() {
         //
@@ -24,52 +25,54 @@ class AcceptanceTests {
 
         fixture = App()
         fixture.init()
+        counterStore = fixture.injector.getInstance(CounterReduceStore::class.java)
+        counterActions = fixture.injector.getInstance(CounterActions::class.java)
     }
 
     @Test
     fun `intial counter state`() {
         // Then
-        assertEquals(0, fixture.counterStore.state.value)
-        assertFalse(fixture.counterStore.state.isDecreasable)
+        assertEquals(0, counterStore.state.value)
+        assertFalse(counterStore.state.isDecreasable)
     }
 
     @Test
     fun `increment counter`() {
         // When
-        fixture.counterActions.increase()
-        fixture.counterActions.increase()
+        counterActions.increase()
+        counterActions.increase()
 
         // Then
-        assertEquals(2, fixture.counterStore.state.value)
-        assertTrue(fixture.counterStore.state.isDecreasable)
+        assertEquals(2, counterStore.state.value)
+        assertTrue(counterStore.state.isDecreasable)
     }
 
     @Test
     fun `decrement counter`() {
         //  Given
-        fixture.counterActions.increase()
-        fixture.counterActions.increase()
+        counterActions.increase()
+        counterActions.increase()
 
         // When
-        fixture.counterActions.decrease()
+        counterActions.decrease()
 
         // Then
-        assertEquals(1, fixture.counterStore.state.value)
-        assertTrue(fixture.counterStore.state.isDecreasable)
+        assertEquals(1, counterStore.state.value)
+        assertTrue(counterStore.state.isDecreasable)
     }
 
     @Test
     fun `counter can not be negative`() {
         //  Given
-        fixture.counterActions.increase()
-        fixture.counterActions.increase()
+        counterActions.increase()
+        counterActions.increase()
 
         // When
-        fixture.counterActions.decrease()
-        fixture.counterActions.decrease()
+        counterActions.decrease()
+        counterActions.decrease()
 
         // Then
-        assertEquals(0, fixture.counterStore.state.value)
-        assertFalse(fixture.counterStore.state.isDecreasable)
+        assertEquals(0, counterStore.state.value)
+        assertFalse(counterStore.state.isDecreasable)
     }
 }
