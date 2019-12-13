@@ -13,13 +13,10 @@ private const val PREFIX = "ID_"
 /** Class of the central dispatcher. */
 class Dispatcher {
 
-    // FIXME async bug: only last change wins; queue dispatch actions?
-
     var isDispatching = false
         private set
 
     private var lastId = 1
-
     private var callbacks = mapOf<DispatchToken, Callback>()
 
     fun register(callback: Callback): DispatchToken {

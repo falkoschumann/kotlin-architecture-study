@@ -29,7 +29,7 @@ class App : Application() {
 
     override fun start(primaryStage: Stage) {
         val root = createRoot()
-        primaryStage.scene = Scene(root.first)
+        primaryStage.scene = Scene(root)
         primaryStage.title = "Counter - Flux"
         primaryStage.show()
     }
@@ -43,12 +43,10 @@ class App : Application() {
         return Guice.createInjector(module)
     }
 
-    internal fun createRoot(): Pair<Parent, CounterViewController> {
+    private fun createRoot(): Parent {
         val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
         loader.controllerFactory = Callback { injector.getInstance(it) }
-        val view = loader.load<Parent>()
-        val controller = loader.getController<CounterViewController>()
-        return Pair(view, controller)
+        return loader.load<Parent>()
     }
 }
 

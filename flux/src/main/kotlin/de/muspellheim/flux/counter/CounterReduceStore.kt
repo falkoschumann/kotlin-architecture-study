@@ -7,35 +7,22 @@ package de.muspellheim.flux.counter
 
 import de.muspellheim.flux.Dispatcher
 import de.muspellheim.flux.ReduceStore
-import de.muspellheim.shared.DispatchQueue
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.math.max
 
-/** A store. */
+/** A reduce store. */
 @Singleton
-class CounterReduceStore @Inject constructor(dispatcher: Dispatcher) :
+class CounterReduceStore @Inject constructor(dispatcher: Dispatcher, val manager: CounterManager) :
     ReduceStore<Counter>(Counter(0, false), dispatcher) {
-
-    // TODO Extract manager for API calls
 
     override fun reduce(state: Counter, action: Any): Counter {
         return when (action) {
             is IncreaseCounterAction -> {
-                DispatchQueue.background {
-                    TimeUnit.SECONDS.sleep(1)
-                    val value = state.value + action.amount
-                    dispatcher.dispatch(CounterChangedAction(value))
-                }
+                manager.increase(state.value, action.amount)
                 state
             }
             is DecreaseCounterAction -> {
-                DispatchQueue.background {
-                    TimeUnit.SECONDS.sleep(1)
-                    val value = max(0, state.value - action.amount)
-                    dispatcher.dispatch(CounterChangedAction(value))
-                }
+                manager.decrease(state.value, action.amount)
                 state
             }
             is CounterChangedAction -> {

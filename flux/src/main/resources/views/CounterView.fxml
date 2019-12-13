@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <HBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="de.muspellheim.flux.counter.CounterViewController"
+      fx:controller="de.muspellheim.flux.counter.CounterReduceViewController"
       alignment="CENTER" spacing="10.0">
     <padding>
         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
