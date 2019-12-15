@@ -5,74 +5,86 @@
 
 package de.muspellheim.flux.counter
 
+import de.muspellheim.shared.JavaFxExtension
+import java.time.Duration
+import org.awaitility.Awaitility.await
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 
 /** Acceptance tests. */
+@Tag("it")
+@ExtendWith(JavaFxExtension::class)
 class AcceptanceTests {
 
-    private lateinit var fixture: App
-    private lateinit var counterStore: CounterReduceStore
-    private lateinit var counterActions: CounterActions
+    private lateinit var counterViewController: CounterViewController
+    private lateinit var actionList: List<Any>
+
     @BeforeEach
     fun setUp() {
         //
         // Given
         //
 
-        fixture = App()
-        fixture.init()
-        counterStore = fixture.injector.getInstance(CounterReduceStore::class.java)
-        counterActions = fixture.injector.getInstance(CounterActions::class.java)
+        actionList = emptyList()
+
+        val app = App()
+        app.init()
+        app.createRoot()
+        app.dispatcher.register { actionList = actionList + it }
+        counterViewController = app.counterViewController
     }
 
     @Test
     fun `intial counter state`() {
         // Then
-        assertEquals(0, counterStore.state.value)
-        assertFalse(counterStore.state.isDecreasable)
+        assertEquals("0", counterViewController.valueLabel.text)
+        assertTrue(counterViewController.decreaseButton.isDisabled)
     }
 
     @Test
     fun `increment counter`() {
         // When
-        counterActions.increase()
-        counterActions.increase()
+        counterViewController.increase()
+        counterViewController.increase()
 
         // Then
-        assertEquals(2, counterStore.state.value)
-        assertTrue(counterStore.state.isDecreasable)
+        await().atMost(Duration.ofSeconds(1)).until { actionList.size == 2 }
+        assertEquals("2", counterViewController.valueLabel.text)
+        assertFalse(counterViewController.decreaseButton.isDisabled)
     }
 
     @Test
     fun `decrement counter`() {
         //  Given
-        counterActions.increase()
-        counterActions.increase()
+        counterViewController.increase()
+        counterViewController.increase()
 
         // When
-        counterActions.decrease()
+        counterViewController.decrease()
 
         // Then
-        assertEquals(1, counterStore.state.value)
-        assertTrue(counterStore.state.isDecreasable)
+        await().atMost(Duration.ofSeconds(1)).until { actionList.size == 3 }
+        assertEquals("1", counterViewController.valueLabel.text)
+        assertFalse(counterViewController.decreaseButton.isDisabled)
     }
 
     @Test
     fun `counter can not be negative`() {
         //  Given
-        counterActions.increase()
-        counterActions.increase()
+        counterViewController.increase()
 
         // When
-        counterActions.decrease()
-        counterActions.decrease()
+        counterViewController.decrease()
+        counterViewController.decrease()
 
         // Then
-        assertEquals(0, counterStore.state.value)
-        assertFalse(counterStore.state.isDecreasable)
+        await().atMost(Duration.ofSeconds(1)).until { actionList.size == 3 }
+        assertEquals("0", counterViewController.valueLabel.text)
+        assertTrue(counterViewController.decreaseButton.isDisabled)
     }
 }

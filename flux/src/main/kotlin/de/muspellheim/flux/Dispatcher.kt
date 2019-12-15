@@ -16,8 +16,7 @@ class Dispatcher {
     // TODO waitFor(ids: List<String)
 
     private var _isDispatching = false
-    val isDispatching: Boolean
-        get() = _isDispatching
+    val isDispatching: Boolean get() = _isDispatching
 
     private var lastId = 1
     private var callbacks = mapOf<DispatchToken, Callback>()

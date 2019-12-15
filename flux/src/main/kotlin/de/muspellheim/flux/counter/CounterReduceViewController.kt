@@ -20,7 +20,7 @@ class CounterReduceViewController @Inject constructor(
     lateinit var valueLabel: Label
 
     fun initialize() {
-        counterStore.onChanged += { update() }
+        counterStore.addListener { update() }
         update()
     }
 
@@ -35,7 +35,7 @@ class CounterReduceViewController @Inject constructor(
     private fun update() {
         DispatchQueue.application {
             valueLabel.text = counterStore.state.value.toString()
-            decreaseButton.isDisable = !counterStore.state.isDecreasable
+            decreaseButton.isDisable = counterStore.state.isDecreaseDisabled
         }
     }
 }

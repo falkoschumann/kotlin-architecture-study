@@ -80,14 +80,13 @@ class AcceptanceTests {
     fun `counter can not be negative`() {
         //  Given
         counterViewActor.increase()
-        counterViewActor.increase()
 
         // When
         counterViewActor.decrease()
         counterViewActor.decrease()
 
         // Then
-        await().atMost(Duration.ofSeconds(10)).until { eventList.size == 8 }
+        await().atMost(Duration.ofSeconds(10)).until { eventList.size == 6 }
         assertEquals("0", counterViewActor.valueLabel.text)
         assertTrue(counterViewActor.decreaseButton.isDisabled)
     }

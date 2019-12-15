@@ -9,24 +9,23 @@ import de.muspellheim.flux.Dispatcher
 import de.muspellheim.flux.ReduceStore
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.max
 
 /** A reduce store. */
 @Singleton
-class CounterReduceStore @Inject constructor(dispatcher: Dispatcher, val manager: CounterManager) :
-    ReduceStore<Counter>(Counter(0, false), dispatcher) {
+class CounterReduceStore @Inject constructor(dispatcher: Dispatcher) :
+    ReduceStore<Counter>(Counter(0, true), dispatcher) {
 
     override fun reduce(state: Counter, action: Any): Counter {
         return when (action) {
             is IncreaseCounterAction -> {
-                manager.increase(state.value, action.amount)
-                state
+                val value = state.value + 1
+                Counter(value, false)
             }
             is DecreaseCounterAction -> {
-                manager.decrease(state.value, action.amount)
-                state
-            }
-            is CounterChangedAction -> {
-                state.copy(value = action.newValue, isDecreasable = action.newValue > 0)
+                val value = max(0, state.value - 1)
+                val isDecreaseDisabled = value == 0
+                Counter(value, isDecreaseDisabled)
             }
             else -> state
         }

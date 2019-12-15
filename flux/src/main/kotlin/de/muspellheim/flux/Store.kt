@@ -11,7 +11,6 @@ abstract class Store(val dispatcher: Dispatcher) {
     val dispatchToken: DispatchToken
 
     private var changed = false
-
     private var listeners = emptyList<() -> Unit>()
 
     init {

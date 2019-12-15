@@ -9,30 +9,28 @@ import de.muspellheim.flux.Dispatcher
 import de.muspellheim.flux.Store
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.max
 
 /** A store. */
 @Singleton
-class CounterStore @Inject constructor(dispatcher: Dispatcher, val manager: CounterManager) : Store(dispatcher) {
+class CounterStore @Inject constructor(dispatcher: Dispatcher) : Store(dispatcher) {
 
-    var value = 0
-        private set
+    private var _value = 0
+    val value: Int get() = _value
 
-    var isDecreasable = false
-        private set
+    private var _isDecreaseDisabled = true
+    val isDecreaseDisabled: Boolean get() = _isDecreaseDisabled
 
     override fun onDispatch(payload: Any) {
         when (payload) {
             is IncreaseCounterAction -> {
-                manager.increase(value, payload.amount)
+                _value++
+                _isDecreaseDisabled = false
                 emitChange()
             }
             is DecreaseCounterAction -> {
-                manager.decrease(value, payload.amount)
-                emitChange()
-            }
-            is CounterChangedAction -> {
-                value = payload.newValue
-                isDecreasable = payload.newValue > 0
+                _value = max(0, _value - 1)
+                _isDecreaseDisabled = value == 0
                 emitChange()
             }
         }

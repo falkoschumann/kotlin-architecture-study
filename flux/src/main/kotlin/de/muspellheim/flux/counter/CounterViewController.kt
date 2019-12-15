@@ -10,7 +10,7 @@ import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javax.inject.Inject
 
-/** A supervising controller. */
+/** A view controller. */
 class CounterViewController @Inject constructor(
     private val counterStore: CounterStore,
     private val counterActions: CounterActions
@@ -20,7 +20,7 @@ class CounterViewController @Inject constructor(
     lateinit var valueLabel: Label
 
     fun initialize() {
-        counterStore.onChanged += { update() }
+        counterStore.addListener { update() }
         update()
     }
 
@@ -35,7 +35,7 @@ class CounterViewController @Inject constructor(
     private fun update() {
         DispatchQueue.application {
             valueLabel.text = counterStore.value.toString()
-            decreaseButton.isDisable = !counterStore.isDecreasable
+            decreaseButton.isDisable = counterStore.isDecreaseDisabled
         }
     }
 }

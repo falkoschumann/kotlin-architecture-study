@@ -6,7 +6,6 @@
 package de.muspellheim.flux.counter
 
 import de.muspellheim.flux.Dispatcher
-import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -29,58 +28,42 @@ class CounterReduceStoreTest {
     @Test
     fun `intial counter state`() {
         // Then
-        assertEquals(Counter(value = 0, isDecreasable = false), fixture.state)
+        assertEquals(Counter(0, true), fixture.state)
     }
 
     @Test
     fun `increment counter`() {
         // Given
-        val oldState = Counter(value = 1, isDecreasable = true)
+        val oldState = Counter(1, false)
 
         // When
         val newState = fixture.reduce(oldState, IncreaseCounterAction())
-        TimeUnit.MILLISECONDS.sleep(1200)
 
         // Then
-        assertEquals(Counter(value = 2, isDecreasable = true), newState)
+        assertEquals(Counter(2, false), newState)
     }
 
     @Test
     fun `decrement counter`() {
         // Given
-        val oldState = Counter(value = 2, isDecreasable = true)
+        val oldState = Counter(2, false)
 
         // When
         val newState = fixture.reduce(oldState, DecreaseCounterAction())
-        TimeUnit.MILLISECONDS.sleep(1200)
 
         // Then
-        assertEquals(Counter(value = 1, isDecreasable = true), newState)
-    }
-
-    @Test
-    fun `counter should not be negative`() {
-        // Given
-        val oldState = Counter(value = 1, isDecreasable = true)
-
-        // When
-        val newState = fixture.reduce(oldState, DecreaseCounterAction())
-        TimeUnit.MILLISECONDS.sleep(1200)
-
-        // Then
-        assertEquals(Counter(value = 0, isDecreasable = false), newState)
+        assertEquals(Counter(1, false), newState)
     }
 
     @Test
     fun `counter can not be negative`() {
         // Given
-        val oldState = Counter(value = 0, isDecreasable = false)
+        val oldState = Counter(0, true)
 
         // When
         val newState = fixture.reduce(oldState, DecreaseCounterAction())
-        TimeUnit.MILLISECONDS.sleep(1200)
 
         // Then
-        assertEquals(Counter(value = 0, isDecreasable = false), newState)
+        assertEquals(Counter(0, true), newState)
     }
 }
