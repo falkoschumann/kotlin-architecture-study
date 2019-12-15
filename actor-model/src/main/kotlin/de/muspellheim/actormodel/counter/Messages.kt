@@ -8,4 +8,4 @@ package de.muspellheim.actormodel.counter
 class IncreaseCounterAction
 class DecreaseCounterAction
 
-data class CounterUpdatedEvent(val value: Int)
+data class CounterUpdatedEvent(val value: Int, val isDecreasable: Boolean)

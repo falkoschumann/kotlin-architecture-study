@@ -13,6 +13,8 @@ class Counter {
     private var _value = 0
     val value get() = _value
 
+    val isDecreasable: Boolean get() = value > 0
+
     fun increase() {
         _value++
     }

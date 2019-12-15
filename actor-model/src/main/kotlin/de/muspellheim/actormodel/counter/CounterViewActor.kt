@@ -26,7 +26,7 @@ class CounterViewActor : JavaFxActor() {
     override fun work(message: Any) {
         if (message is CounterUpdatedEvent) {
             valueLabel.text = message.value.toString()
-            decreaseButton.isDisable = message.value == 0
+            decreaseButton.isDisable = !message.isDecreasable
         }
     }
 }

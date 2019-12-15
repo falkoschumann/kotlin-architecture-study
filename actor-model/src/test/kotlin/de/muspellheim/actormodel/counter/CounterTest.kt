@@ -6,6 +6,8 @@
 package de.muspellheim.actormodel.counter
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -24,6 +26,7 @@ class CounterTest {
     fun `initial state`() {
         // Then
         assertEquals(0, fixture.value)
+        assertFalse(fixture.isDecreasable)
     }
 
     @Test
@@ -34,6 +37,7 @@ class CounterTest {
 
         // Then
         assertEquals(2, fixture.value)
+        assertTrue(fixture.isDecreasable)
     }
 
     @Test
@@ -47,6 +51,7 @@ class CounterTest {
 
         // Then
         assertEquals(1, fixture.value)
+        assertTrue(fixture.isDecreasable)
     }
 
     @Test
@@ -60,5 +65,6 @@ class CounterTest {
 
         // Then
         assertEquals(0, fixture.value)
+        assertFalse(fixture.isDecreasable)
     }
 }

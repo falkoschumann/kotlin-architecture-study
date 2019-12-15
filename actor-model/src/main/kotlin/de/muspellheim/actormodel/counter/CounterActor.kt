@@ -14,11 +14,11 @@ class CounterActor(private val counter: Counter) : SimpleActor("Counter Actor") 
         when (message) {
             is IncreaseCounterAction -> {
                 counter.increase()
-                outbox(CounterUpdatedEvent(counter.value))
+                outbox(CounterUpdatedEvent(counter.value, counter.isDecreasable))
             }
             is DecreaseCounterAction -> {
                 counter.decrease()
-                outbox(CounterUpdatedEvent(counter.value))
+                outbox(CounterUpdatedEvent(counter.value, counter.isDecreasable))
             }
         }
     }
