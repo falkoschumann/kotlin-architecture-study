@@ -12,31 +12,44 @@ abstract class Store(val dispatcher: Dispatcher) {
 
     val dispatchToken: DispatchToken
 
-    var isChanged = false
-        get() {
-            assert(dispatcher.isDispatching) { "$javaClass.isChanged: Must be invoked while dispatching." }
-            return field
-        }
-        private set
+    private var changed = false
 
-    val onChanged = Action<Unit>()
+    private var listeners = emptyList<() -> Unit>()
 
     init {
         dispatchToken = dispatcher.register { invokeOnDispatch(it) }
     }
 
+    fun addListener(listener: () -> Unit): Remover {
+        listeners = listeners + listener
+        return object : Remover {
+            override fun remove() {
+                listeners = listeners - listener
+            }
+        }
+    }
+
+    fun hasChanged(): Boolean {
+        assert(dispatcher.isDispatching) { "$javaClass.isChanged: Must be invoked while dispatching." }
+        return changed
+    }
+
     protected fun emitChange() {
         assert(dispatcher.isDispatching) { "$javaClass.emitChange(): Must be invoked while dispatching." }
-        isChanged = true
+        changed = true
     }
 
     private fun invokeOnDispatch(payload: Any) {
-        isChanged = false
+        changed = false
         onDispatch(payload)
-        if (isChanged) {
-            onChanged()
+        if (changed) {
+            listeners.forEach { it() }
         }
     }
 
     protected abstract fun onDispatch(payload: Any)
+}
+
+interface Remover {
+    fun remove()
 }

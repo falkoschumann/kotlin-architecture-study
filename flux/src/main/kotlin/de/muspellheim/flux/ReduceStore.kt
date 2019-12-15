@@ -5,20 +5,16 @@
 
 package de.muspellheim.flux
 
-abstract class ReduceStore<T : Any>(val initialState: T, dispatcher: Dispatcher) : Store(dispatcher) {
+abstract class ReduceStore<S : Any>(val initialState: S, dispatcher: Dispatcher) : Store(dispatcher) {
 
-    var state: T = initialState
+    var state: S = initialState
 
-    abstract fun reduce(state: T, action: Any): T
-
-    fun areEqual(one: T, two: T): Boolean {
-        return one === two
-    }
+    abstract fun reduce(state: S, action: Any): S
 
     override fun onDispatch(payload: Any) {
         val startingState = state
         val endingState = reduce(startingState, payload)
-        if (!areEqual(startingState, endingState)) {
+        if (startingState != endingState) {
             state = endingState
             emitChange()
         }

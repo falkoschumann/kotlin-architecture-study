@@ -13,8 +13,11 @@ private const val PREFIX = "ID_"
 /** Class of the central dispatcher. */
 class Dispatcher {
 
-    var isDispatching = false
-        private set
+    // TODO waitFor(ids: List<String)
+
+    private var _isDispatching = false
+    val isDispatching: Boolean
+        get() = _isDispatching
 
     private var lastId = 1
     private var callbacks = mapOf<DispatchToken, Callback>()
@@ -32,13 +35,13 @@ class Dispatcher {
 
     fun dispatch(payload: Any) {
         assert(!isDispatching) { "Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch." }
-        isDispatching = true
+        _isDispatching = true
         try {
             callbacks.forEach {
                 it.value(payload)
             }
         } finally {
-            isDispatching = false
+            _isDispatching = false
         }
     }
 }
