@@ -5,21 +5,21 @@
 
 package de.muspellheim.shared
 
-class Action {
+class Event<T> {
 
-    private var listeners = listOf<() -> Unit>()
+    private var listeners = listOf<(T) -> Unit>()
 
-    operator fun plusAssign(listener: () -> Unit) {
+    operator fun plusAssign(listener: (T) -> Unit) {
         listeners = listeners + listener
     }
 
-    operator fun minusAssign(listener: () -> Unit) {
+    operator fun minusAssign(listener: (T) -> Unit) {
         listeners = listeners - listener
     }
 
-    operator fun invoke() {
+    operator fun invoke(message: T) {
         listeners.forEach {
-            it()
+            it(message)
         }
     }
 }

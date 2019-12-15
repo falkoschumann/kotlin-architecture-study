@@ -7,7 +7,8 @@ package de.muspellheim.actormodel.counter
 
 import de.muspellheim.actormodel.EventBus
 import de.muspellheim.shared.JavaFxExtension
-import java.util.concurrent.TimeUnit
+import java.time.Duration
+import org.awaitility.Awaitility.await
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -21,7 +22,8 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(JavaFxExtension::class)
 class AcceptanceTests {
 
-    private lateinit var counterViewController: CounterViewController
+    private lateinit var counterViewActor: CounterViewActor
+    private lateinit var eventList: List<Any>
 
     @BeforeEach
     fun setUp() {
@@ -29,59 +31,64 @@ class AcceptanceTests {
         // Given
         //
 
-        val eventBus = EventBus("Acceptance Testing")
-        val app = App(eventBus)
+        eventList = emptyList()
+
+        val app = App(EventBus("Testing Event Bus"))
+        app.eventBus.subscribe {
+            eventList = eventList + it
+        }
         app.init()
-        counterViewController = app.createRoot().second
+        app.createRoot()
+        counterViewActor = app.counterViewActor
     }
 
     @Test
     fun `intial counter view state`() {
         // Then
-        assertEquals("0", counterViewController.valueLabel.text)
-        assertTrue(counterViewController.decreaseButton.isDisabled)
+        assertEquals("0", counterViewActor.valueLabel.text)
+        assertTrue(counterViewActor.decreaseButton.isDisabled)
     }
 
     @Test
     fun `increment counter`() {
         // When
-        counterViewController.increase()
-        counterViewController.increase()
+        counterViewActor.increase()
+        counterViewActor.increase()
 
         // Then
-        TimeUnit.SECONDS.sleep(3)
-        assertEquals("2", counterViewController.valueLabel.text)
-        assertFalse(counterViewController.decreaseButton.isDisabled)
+        await().atMost(Duration.ofSeconds(10)).until { eventList.size == 4 }
+        assertEquals("2", counterViewActor.valueLabel.text)
+        assertFalse(counterViewActor.decreaseButton.isDisabled)
     }
 
     @Test
     fun `decrement counter`() {
         //  Given
-        counterViewController.increase()
-        counterViewController.increase()
+        counterViewActor.increase()
+        counterViewActor.increase()
 
         // When
-        counterViewController.decrease()
+        counterViewActor.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(4)
-        assertEquals("1", counterViewController.valueLabel.text)
-        assertFalse(counterViewController.decreaseButton.isDisabled)
+        await().atMost(Duration.ofSeconds(10)).until { eventList.size == 6 }
+        assertEquals("1", counterViewActor.valueLabel.text)
+        assertFalse(counterViewActor.decreaseButton.isDisabled)
     }
 
     @Test
     fun `counter can not be negative`() {
         //  Given
-        counterViewController.increase()
-        counterViewController.increase()
+        counterViewActor.increase()
+        counterViewActor.increase()
 
         // When
-        counterViewController.decrease()
-        counterViewController.decrease()
+        counterViewActor.decrease()
+        counterViewActor.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(5)
-        assertEquals("0", counterViewController.valueLabel.text)
-        assertTrue(counterViewController.decreaseButton.isDisabled)
+        await().atMost(Duration.ofSeconds(10)).until { eventList.size == 8 }
+        assertEquals("0", counterViewActor.valueLabel.text)
+        assertTrue(counterViewActor.decreaseButton.isDisabled)
     }
 }

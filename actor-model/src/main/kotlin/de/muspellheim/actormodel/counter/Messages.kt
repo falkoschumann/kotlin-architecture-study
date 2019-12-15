@@ -5,7 +5,7 @@
 
 package de.muspellheim.actormodel.counter
 
-data class IncreaseCounterAction(val amount: Int = 1)
-data class DecreaseCounterAction(val amount: Int = 1)
+class IncreaseCounterAction
+class DecreaseCounterAction
 
-data class CounterUpdatedEvent(val newValue: Int)
+data class CounterUpdatedEvent(val value: Int)

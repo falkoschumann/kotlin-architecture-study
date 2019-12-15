@@ -9,7 +9,7 @@ import java.util.concurrent.Executor
 import java.util.concurrent.LinkedBlockingQueue
 import javafx.application.Platform
 
-/** Run tasks in one background queue or in the application queue. */
+/** Run tasks in one background queue or in the JavaFX application queue. */
 object DispatchQueue {
 
     // TODO Replace with coroutine?

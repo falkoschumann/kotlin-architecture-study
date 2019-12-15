@@ -5,22 +5,13 @@
 
 package de.muspellheim.actormodel
 
-import de.muspellheim.shared.Action
+import de.muspellheim.shared.Event
 
 /** An actor. */
-interface Actor {
+abstract class Actor {
 
-    val outbox: Action<Any>
+    val outbox = Event<Any>()
 
-    fun receive(message: Any)
-    fun work(message: Any)
-}
-
-fun EventBus.registerActor(actor: Actor) {
-    this.subscribe {
-        actor.receive(it)
-    }
-    actor.outbox += {
-        this.publish(it!!)
-    }
+    abstract fun receive(message: Any)
+    abstract fun work(message: Any)
 }

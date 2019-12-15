@@ -5,21 +5,19 @@
 
 package de.muspellheim.actormodel.counter
 
-import java.util.concurrent.TimeUnit
+import kotlin.math.max
 
 /** A simple domain model with state. */
 class Counter {
 
-    var value = 0
-        private set
+    private var _value = 0
+    val value get() = _value
 
-    fun increase(amount: Int = 1) {
-        TimeUnit.SECONDS.sleep(1)
-        value += amount
+    fun increase() {
+        _value++
     }
 
-    fun decrease(amount: Int = 1) {
-        TimeUnit.SECONDS.sleep(1)
-        value = Integer.max(0, value - amount)
+    fun decrease() {
+        _value = max(0, _value - 1)
     }
 }

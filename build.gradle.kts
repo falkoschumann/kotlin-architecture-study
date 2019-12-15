@@ -24,6 +24,7 @@ subprojects {
         implementation("com.google.inject:guice:4.2.2")
 
         testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
+        testImplementation("org.awaitility:awaitility:4.0.1")
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

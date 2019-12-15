@@ -5,13 +5,10 @@
 
 package de.muspellheim.actormodel
 
-import de.muspellheim.shared.Action
 import java.util.concurrent.LinkedBlockingQueue
 
 /** Base class for an actor with worker thread for inbox. */
-abstract class SimpleActor(threadName: String) : Actor {
-
-    override val outbox = Action<Any>()
+abstract class SimpleActor(threadName: String) : Actor() {
 
     private val inbox = LinkedBlockingQueue<Any>()
 

@@ -9,8 +9,8 @@ import de.muspellheim.actormodel.JavaFxActor
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 
-/** A passive view as actor controller. */
-class CounterViewController : JavaFxActor() {
+/** An actor as passive view. */
+class CounterViewActor : JavaFxActor() {
 
     lateinit var decreaseButton: Button
     lateinit var valueLabel: Label
@@ -25,8 +25,8 @@ class CounterViewController : JavaFxActor() {
 
     override fun work(message: Any) {
         if (message is CounterUpdatedEvent) {
-            valueLabel.text = message.newValue.toString()
-            decreaseButton.isDisable = message.newValue <= 0
+            valueLabel.text = message.value.toString()
+            decreaseButton.isDisable = message.value == 0
         }
     }
 }

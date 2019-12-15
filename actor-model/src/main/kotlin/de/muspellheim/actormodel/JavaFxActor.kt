@@ -5,12 +5,9 @@
 
 package de.muspellheim.actormodel
 
-import de.muspellheim.shared.Action
 import javafx.application.Platform
 
-abstract class JavaFxActor : Actor {
-
-    override val outbox = Action<Any>()
+abstract class JavaFxActor : Actor() {
 
     override fun receive(message: Any) {
         if (Platform.isFxApplicationThread()) {

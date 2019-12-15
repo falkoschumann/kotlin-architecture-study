@@ -5,8 +5,6 @@
 
 package de.muspellheim.flux
 
-import de.muspellheim.shared.Action
-
 /** Base class of a store. */
 abstract class Store(val dispatcher: Dispatcher) {
 
