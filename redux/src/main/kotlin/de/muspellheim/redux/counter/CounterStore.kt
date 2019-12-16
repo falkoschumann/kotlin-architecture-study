@@ -5,13 +5,14 @@
 
 package de.muspellheim.redux.counter
 
-import de.muspellheim.redux.Reducer
 import de.muspellheim.redux.Store
 import kotlin.math.max
 
-/** Reducers. */
-val reducer: Reducer<Counter> = { state: Counter, action: Any ->
-    when (action) {
+// TODO handle actions async
+
+/** Reducer. */
+fun counter(state: Counter, action: Any): Counter {
+    return when (action) {
         is IncreaseCounterAction -> {
             val value = state.value + 1
             Counter(value, false)
@@ -27,5 +28,5 @@ val reducer: Reducer<Counter> = { state: Counter, action: Any ->
 
 /** Create Redux store. */
 fun createStore(): Store<Counter> {
-    return Store(reducer, Counter(0, true))
+    return Store(::counter, Counter(0, true))
 }

@@ -11,6 +11,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
 
+// TODO handle actions async
+
 /** A store. */
 @Singleton
 class CounterStore @Inject constructor(dispatcher: Dispatcher) : Store(dispatcher) {

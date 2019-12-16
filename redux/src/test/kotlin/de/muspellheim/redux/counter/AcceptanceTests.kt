@@ -27,7 +27,7 @@ class AcceptanceTests {
     @Test
     fun `increment counter`() {
         // Given
-        val fixture = Store(reducer, Counter(1, false))
+        val fixture = Store(::counter, Counter(1, false))
 
         // When
         fixture.dispatch(IncreaseCounterAction())
@@ -40,7 +40,7 @@ class AcceptanceTests {
     @Test
     fun `decrement counter`() {
         // Given
-        val fixture = Store(reducer, Counter(2, false))
+        val fixture = Store(::counter, Counter(2, false))
 
         // When
         fixture.dispatch(DecreaseCounterAction())
@@ -53,7 +53,7 @@ class AcceptanceTests {
     @Test
     fun `counter can not be negative`() {
         // Given
-        val fixture = Store(reducer, Counter(1, false))
+        val fixture = Store(::counter, Counter(1, false))
 
         // When
         fixture.dispatch(DecreaseCounterAction())

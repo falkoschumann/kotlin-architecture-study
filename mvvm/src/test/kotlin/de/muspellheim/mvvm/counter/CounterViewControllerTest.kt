@@ -6,8 +6,8 @@
 package de.muspellheim.mvvm.counter
 
 import de.muspellheim.shared.JavaFxExtension
+import java.time.Duration
 import org.awaitility.Awaitility
-import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -15,7 +15,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.time.Duration
 
 /** Integration tests. */
 @Tag("it")
