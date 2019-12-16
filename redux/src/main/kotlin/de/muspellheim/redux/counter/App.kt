@@ -8,7 +8,7 @@ package de.muspellheim.redux.counter
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Injector
-import de.muspellheim.redux.Dispatcher
+import de.muspellheim.redux.Store
 import javafx.application.Application
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
@@ -19,11 +19,11 @@ import javafx.util.Callback
 /** The app builds stores and root view. */
 class App : Application() {
 
-    internal lateinit var dispatcher: Dispatcher
-    internal lateinit var injector: Injector
+    internal lateinit var store: Store<Counter>
+    private lateinit var injector: Injector
 
     override fun init() {
-        dispatcher = Dispatcher()
+        store = createStore()
         injector = createInjector()
     }
 
@@ -37,7 +37,7 @@ class App : Application() {
     private fun createInjector(): Injector {
         val module = object : AbstractModule() {
             override fun configure() {
-                bind(Dispatcher::class.java).toInstance(dispatcher)
+                bind(Store::class.java).toInstance(store)
             }
         }
         return Guice.createInjector(module)

@@ -5,37 +5,35 @@
 
 package de.muspellheim.redux.counter
 
+import de.muspellheim.redux.Store
 import de.muspellheim.shared.DispatchQueue
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javax.inject.Inject
 
 /** A supervising controller. */
-class CounterViewController @Inject constructor(
-    private val counterStore: CounterStore,
-    private val counterActions: CounterActions
-) {
+class CounterViewController @Inject constructor(private val counterStore: Store<Counter>) {
 
     lateinit var decreaseButton: Button
     lateinit var valueLabel: Label
 
     fun initialize() {
-        counterStore.onChanged += { update() }
+        counterStore.subscribe { update() }
         update()
     }
 
     fun increase() {
-        counterActions.increase()
+        counterStore.dispatch(IncreaseCounterAction())
     }
 
     fun decrease() {
-        counterActions.decrease()
+        counterStore.dispatch(DecreaseCounterAction())
     }
 
     private fun update() {
         DispatchQueue.application {
-            valueLabel.text = counterStore.value.toString()
-            decreaseButton.isDisable = !counterStore.isDecreasable
+            valueLabel.text = counterStore.state.value.toString()
+            decreaseButton.isDisable = counterStore.state.isDecreaseDisabled
         }
     }
 }

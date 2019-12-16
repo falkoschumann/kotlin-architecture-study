@@ -6,4 +6,4 @@
 package de.muspellheim.redux.counter
 
 /** A state. */
-data class Counter(val value: Int, val isDecreasable: Boolean)
+data class Counter(val value: Int, val isDecreaseDisabled: Boolean)

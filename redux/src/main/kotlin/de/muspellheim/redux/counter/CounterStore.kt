@@ -5,36 +5,27 @@
 
 package de.muspellheim.redux.counter
 
-import de.muspellheim.redux.Dispatcher
+import de.muspellheim.redux.Reducer
 import de.muspellheim.redux.Store
-import javax.inject.Inject
-import javax.inject.Singleton
+import kotlin.math.max
 
-/** A store. */
-@Singleton
-class CounterStore @Inject constructor(dispatcher: Dispatcher, val manager: CounterManager) : Store(dispatcher) {
-
-    var value = 0
-        private set
-
-    var isDecreasable = false
-        private set
-
-    override fun onDispatch(payload: Any) {
-        when (payload) {
-            is IncreaseCounterAction -> {
-                manager.increase(value, payload.amount)
-                emitChange()
-            }
-            is DecreaseCounterAction -> {
-                manager.decrease(value, payload.amount)
-                emitChange()
-            }
-            is CounterChangedAction -> {
-                value = payload.newValue
-                isDecreasable = payload.newValue > 0
-                emitChange()
-            }
+/** Reducers. */
+val reducer: Reducer<Counter> = { state: Counter, action: Any ->
+    when (action) {
+        is IncreaseCounterAction -> {
+            val value = state.value + 1
+            Counter(value, false)
         }
+        is DecreaseCounterAction -> {
+            val value = max(0, state.value - 1)
+            val isDecreaseDisabled = value == 0
+            Counter(value, isDecreaseDisabled)
+        }
+        else -> state
     }
+}
+
+/** Create Redux store. */
+fun createStore(): Store<Counter> {
+    return Store(reducer, Counter(0, true))
 }

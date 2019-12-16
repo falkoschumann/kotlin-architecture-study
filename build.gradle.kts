@@ -7,15 +7,19 @@ plugins {
     base
     kotlin("jvm") version "1.3.41" apply false
     id("com.diffplug.gradle.spotless") version "3.26.1"
+    id("org.jlleitschuh.gradle.ktlint") version "9.1.1"
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
 }
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "com.diffplug.gradle.spotless")
-
-    repositories {
-        jcenter()
-    }
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     val implementation by configurations
     val testImplementation by configurations
@@ -40,7 +44,6 @@ subprojects {
 
     spotless {
         kotlin {
-            ktlint()
             licenseHeaderFile("config/license.header")
         }
     }

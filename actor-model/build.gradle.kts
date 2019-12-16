@@ -14,4 +14,3 @@ dependencies {
 application {
     mainClassName = "de.muspellheim.actormodel.counter.AppKt"
 }
-

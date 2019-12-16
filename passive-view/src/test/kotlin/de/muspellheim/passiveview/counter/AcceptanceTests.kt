@@ -6,7 +6,7 @@
 package de.muspellheim.passiveview.counter
 
 import de.muspellheim.shared.JavaFxExtension
-import org.awaitility.Awaitility
+import java.time.Duration
 import org.awaitility.Awaitility.await
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -15,8 +15,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import java.time.Duration
-import java.util.concurrent.TimeUnit
 
 /** Acceptance tests. */
 @Tag("it")

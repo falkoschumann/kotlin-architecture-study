@@ -5,74 +5,62 @@
 
 package de.muspellheim.redux.counter
 
+import de.muspellheim.redux.Store
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 /** Acceptance tests. */
 class AcceptanceTests {
 
-    private lateinit var fixture: App
-    private lateinit var counterStore: CounterReduceStore
-    private lateinit var counterActions: CounterActions
-    @BeforeEach
-    fun setUp() {
-        //
-        // Given
-        //
-
-        fixture = App()
-        fixture.init()
-        counterStore = fixture.injector.getInstance(CounterReduceStore::class.java)
-        counterActions = fixture.injector.getInstance(CounterActions::class.java)
-    }
-
     @Test
     fun `intial counter state`() {
+        // Given
+        val fixture = createStore()
+
         // Then
-        assertEquals(0, counterStore.state.value)
-        assertFalse(counterStore.state.isDecreasable)
+        assertEquals(0, fixture.state.value)
+        assertTrue(fixture.state.isDecreaseDisabled)
     }
 
     @Test
     fun `increment counter`() {
+        // Given
+        val fixture = Store(reducer, Counter(1, false))
+
         // When
-        counterActions.increase()
-        counterActions.increase()
+        fixture.dispatch(IncreaseCounterAction())
 
         // Then
-        assertEquals(2, counterStore.state.value)
-        assertTrue(counterStore.state.isDecreasable)
+        assertEquals(2, fixture.state.value)
+        assertFalse(fixture.state.isDecreaseDisabled)
     }
 
     @Test
     fun `decrement counter`() {
-        //  Given
-        counterActions.increase()
-        counterActions.increase()
+        // Given
+        val fixture = Store(reducer, Counter(2, false))
 
         // When
-        counterActions.decrease()
+        fixture.dispatch(DecreaseCounterAction())
 
         // Then
-        assertEquals(1, counterStore.state.value)
-        assertTrue(counterStore.state.isDecreasable)
+        assertEquals(1, fixture.state.value)
+        assertFalse(fixture.state.isDecreaseDisabled)
     }
 
     @Test
     fun `counter can not be negative`() {
-        //  Given
-        counterActions.increase()
-        counterActions.increase()
+        // Given
+        val fixture = Store(reducer, Counter(1, false))
 
         // When
-        counterActions.decrease()
-        counterActions.decrease()
+        fixture.dispatch(DecreaseCounterAction())
+        fixture.dispatch(DecreaseCounterAction())
 
         // Then
-        assertEquals(0, counterStore.state.value)
-        assertFalse(counterStore.state.isDecreasable)
+        assertEquals(0, fixture.state.value)
+        assertTrue(fixture.state.isDecreaseDisabled)
     }
 }

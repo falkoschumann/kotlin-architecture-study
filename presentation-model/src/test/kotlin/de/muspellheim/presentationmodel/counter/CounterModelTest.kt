@@ -17,8 +17,8 @@ class CounterModelTest {
     private lateinit var fixture: CounterModel
 
     private var eventList = mutableListOf<String>()
-    private val INCREASED ="increased"
-    private val DECREASED ="decreased"
+    private val INCREASED = "increased"
+    private val DECREASED = "decreased"
 
     @BeforeEach
     fun setUp() {
@@ -46,7 +46,7 @@ class CounterModelTest {
         // Then
         assertEquals("2", fixture.value)
         assertFalse(fixture.isDescreaseDisable)
-        assertEquals(listOf(INCREASED, INCREASED),eventList)
+        assertEquals(listOf(INCREASED, INCREASED), eventList)
     }
 
     @Test
@@ -61,7 +61,7 @@ class CounterModelTest {
         // Then
         assertEquals("1", fixture.value)
         assertFalse(fixture.isDescreaseDisable)
-        assertEquals(listOf(INCREASED, INCREASED, DECREASED),eventList)
+        assertEquals(listOf(INCREASED, INCREASED, DECREASED), eventList)
     }
 
     @Test
@@ -76,6 +76,6 @@ class CounterModelTest {
         // Then
         assertEquals("0", fixture.value)
         assertTrue(fixture.isDescreaseDisable)
-        assertEquals(listOf(INCREASED, DECREASED, DECREASED),eventList)
+        assertEquals(listOf(INCREASED, DECREASED, DECREASED), eventList)
     }
 }

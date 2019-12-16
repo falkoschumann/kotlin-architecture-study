@@ -38,7 +38,7 @@ class AcceptanceTests {
         app.createRoot()
         app.dispatcher.register { actionList = actionList + it }
         counterStore = app.injector.getInstance(CounterReduceStore::class.java)
-        counterActions= app.injector.getInstance(CounterActions::class.java)
+        counterActions = app.injector.getInstance(CounterActions::class.java)
     }
 
     @Test

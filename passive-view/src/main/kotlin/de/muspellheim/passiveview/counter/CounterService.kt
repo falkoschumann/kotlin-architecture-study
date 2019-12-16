@@ -6,7 +6,6 @@
 package de.muspellheim.passiveview.counter
 
 import java.lang.Integer.max
-import java.util.concurrent.TimeUnit
 
 /** A simple domain service with state. */
 class CounterService {

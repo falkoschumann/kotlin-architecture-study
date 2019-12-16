@@ -61,5 +61,4 @@ class CounterServiceTest {
         // Then
         assertEquals(0, fixture.value)
     }
-
 }

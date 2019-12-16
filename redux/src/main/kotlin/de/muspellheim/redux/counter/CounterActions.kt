@@ -5,6 +5,6 @@
 
 package de.muspellheim.redux.counter
 
-data class IncreaseCounterAction(val amount: Int = 1)
-data class DecreaseCounterAction(val amount: Int = 1)
-data class CounterChangedAction(val newValue: Int)
+class IncreaseCounterAction
+class DecreaseCounterAction
+data class CounterChangedAction(val value: Int)
