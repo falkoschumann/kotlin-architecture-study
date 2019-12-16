@@ -17,16 +17,16 @@ class CounterModel @Inject constructor(private val model: CounterService) {
     val isDescreaseDisable: Boolean
         get() = model.value <= 0
 
-    val onIncreased = Action<Void>()
-    val onDecreased = Action<Void>()
+    val onIncreased = Action()
+    val onDecreased = Action()
 
     fun increase() {
-        model.increment()
+        model.increase()
         onIncreased()
     }
 
     fun decrease() {
-        model.decrement()
+        model.decrease()
         onDecreased()
     }
 }

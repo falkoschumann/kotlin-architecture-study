@@ -29,8 +29,8 @@ class CounterServiceTest {
     @Test
     fun `increment counter`() {
         // When
-        fixture.increment()
-        fixture.increment()
+        fixture.increase()
+        fixture.increase()
 
         // Then
         assertEquals(2, fixture.value)
@@ -39,13 +39,26 @@ class CounterServiceTest {
     @Test
     fun `decrement counter`() {
         //  Given
-        fixture.increment()
-        fixture.increment()
+        fixture.increase()
+        fixture.increase()
 
         // When
-        fixture.decrement()
+        fixture.decrease()
 
         // Then
         assertEquals(1, fixture.value)
+    }
+
+    @Test
+    fun `counter can not be negative`() {
+        //  Given
+        fixture.increase()
+
+        // When
+        fixture.decrease()
+        fixture.decrease()
+
+        // Then
+        assertEquals(0, fixture.value)
     }
 }

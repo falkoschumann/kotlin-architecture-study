@@ -6,7 +6,8 @@
 package de.muspellheim.passiveview.counter
 
 import de.muspellheim.shared.JavaFxExtension
-import java.util.concurrent.TimeUnit
+import org.awaitility.Awaitility
+import org.awaitility.Awaitility.await
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -14,6 +15,8 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 /** Acceptance tests. */
 @Tag("it")
@@ -30,7 +33,8 @@ class AcceptanceTests {
 
         val app = App()
         app.init()
-        counterControllerFixture = app.createRoot().second
+        app.createRoot()
+        counterControllerFixture = app.counterController
     }
 
     @Test
@@ -47,7 +51,8 @@ class AcceptanceTests {
         counterControllerFixture.view.onIncrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(3)
+        Thread.sleep(200)
+        await().atMost(Duration.ofSeconds(1)).until { counterControllerFixture.view.value == "2" }
         assertEquals("2", counterControllerFixture.view.value)
         assertFalse(counterControllerFixture.view.isDescreaseDisable)
     }
@@ -62,7 +67,8 @@ class AcceptanceTests {
         counterControllerFixture.view.onDecrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(4)
+        Thread.sleep(200)
+        await().atMost(Duration.ofSeconds(1)).until { counterControllerFixture.view.value == "1" }
         assertEquals("1", counterControllerFixture.view.value)
         assertFalse(counterControllerFixture.view.isDescreaseDisable)
     }
@@ -71,14 +77,14 @@ class AcceptanceTests {
     fun `counter can not be negative`() {
         //  Given
         counterControllerFixture.view.onIncrease()
-        counterControllerFixture.view.onIncrease()
 
         // When
         counterControllerFixture.view.onDecrease()
         counterControllerFixture.view.onDecrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(5)
+        Thread.sleep(200)
+        await().atMost(Duration.ofSeconds(1)).until { counterControllerFixture.view.value == "0" }
         assertEquals("0", counterControllerFixture.view.value)
         assertTrue(counterControllerFixture.view.isDescreaseDisable)
     }

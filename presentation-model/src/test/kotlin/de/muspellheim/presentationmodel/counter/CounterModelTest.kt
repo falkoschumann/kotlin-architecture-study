@@ -16,16 +16,17 @@ class CounterModelTest {
 
     private lateinit var fixture: CounterModel
 
-    private var increased = false
-    private var decreased = false
+    private var eventList = mutableListOf<String>()
+    private val INCREASED ="increased"
+    private val DECREASED ="decreased"
 
     @BeforeEach
     fun setUp() {
         // Given
         val model = CounterService()
         fixture = CounterModel(model)
-        fixture.onIncreased += { increased = true }
-        fixture.onDecreased += { decreased = true }
+        fixture.onIncreased += { eventList.add(INCREASED) }
+        fixture.onDecreased += { eventList.add(DECREASED) }
     }
 
     @Test
@@ -33,8 +34,7 @@ class CounterModelTest {
         // Then
         assertEquals("0", fixture.value)
         assertTrue(fixture.isDescreaseDisable)
-        assertFalse(increased)
-        assertFalse(decreased)
+        assertTrue(eventList.isEmpty())
     }
 
     @Test
@@ -46,8 +46,7 @@ class CounterModelTest {
         // Then
         assertEquals("2", fixture.value)
         assertFalse(fixture.isDescreaseDisable)
-        assertTrue(increased)
-        assertFalse(decreased)
+        assertEquals(listOf(INCREASED, INCREASED),eventList)
     }
 
     @Test
@@ -62,14 +61,12 @@ class CounterModelTest {
         // Then
         assertEquals("1", fixture.value)
         assertFalse(fixture.isDescreaseDisable)
-        assertTrue(increased)
-        assertTrue(decreased)
+        assertEquals(listOf(INCREASED, INCREASED, DECREASED),eventList)
     }
 
     @Test
     fun `counter can not be negative`() {
         //  Given
-        fixture.increase()
         fixture.increase()
 
         // When
@@ -79,7 +76,6 @@ class CounterModelTest {
         // Then
         assertEquals("0", fixture.value)
         assertTrue(fixture.isDescreaseDisable)
-        assertTrue(increased)
-        assertTrue(decreased)
+        assertEquals(listOf(INCREASED, DECREASED, DECREASED),eventList)
     }
 }

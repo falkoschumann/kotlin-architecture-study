@@ -11,16 +11,14 @@ import java.util.concurrent.TimeUnit
 /** A simple domain service with state. */
 class CounterService {
 
-    var value = 0
-        private set
+    private var _value = 0
+    val value get() = _value
 
-    fun increment() {
-        TimeUnit.SECONDS.sleep(1)
-        value++
+    fun increase() {
+        _value++
     }
 
-    fun decrement() {
-        TimeUnit.SECONDS.sleep(1)
-        value = max(0, value - 1)
+    fun decrease() {
+        _value = max(0, _value - 1)
     }
 }

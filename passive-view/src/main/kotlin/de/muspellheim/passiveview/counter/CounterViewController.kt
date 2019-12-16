@@ -24,8 +24,8 @@ class CounterViewController : CounterView {
             decreaseButton.isDisable = value
         }
 
-    override val onIncrease = Action<Void>()
-    override val onDecrease = Action<Void>()
+    override val onIncrease = Action()
+    override val onDecrease = Action()
 
     lateinit var decreaseButton: Button
     lateinit var valueLabel: Label

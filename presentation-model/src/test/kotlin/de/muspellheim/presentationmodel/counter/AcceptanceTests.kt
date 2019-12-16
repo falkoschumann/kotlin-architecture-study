@@ -5,22 +5,20 @@
 
 package de.muspellheim.presentationmodel.counter
 
-import de.muspellheim.shared.JavaFxExtension
-import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
 /** Acceptance tests. */
-@Tag("it")
-@ExtendWith(JavaFxExtension::class)
 class AcceptanceTests {
 
     private lateinit var counterModelFixture: CounterModel
+
+    private var eventList = mutableListOf<String>()
+    private val INCREASED = "increased"
+    private val DECREASED = "decreased"
 
     @BeforeEach
     fun setUp() {
@@ -31,6 +29,8 @@ class AcceptanceTests {
         val app = App()
         app.init()
         counterModelFixture = app.injector.getInstance(CounterModel::class.java)
+        counterModelFixture.onIncreased += { eventList.add(INCREASED) }
+        counterModelFixture.onDecreased += { eventList.add(DECREASED) }
     }
 
     @Test
@@ -38,6 +38,7 @@ class AcceptanceTests {
         // Then
         assertEquals("0", counterModelFixture.value)
         assertTrue(counterModelFixture.isDescreaseDisable)
+        assertTrue(eventList.isEmpty())
     }
 
     @Test
@@ -47,9 +48,9 @@ class AcceptanceTests {
         counterModelFixture.increase()
 
         // Then
-        TimeUnit.SECONDS.sleep(3)
         assertEquals("2", counterModelFixture.value)
         assertFalse(counterModelFixture.isDescreaseDisable)
+        assertEquals(listOf(INCREASED, INCREASED), eventList)
     }
 
     @Test
@@ -62,15 +63,14 @@ class AcceptanceTests {
         counterModelFixture.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(4)
         assertEquals("1", counterModelFixture.value)
         assertFalse(counterModelFixture.isDescreaseDisable)
+        assertEquals(listOf(INCREASED, INCREASED, DECREASED), eventList)
     }
 
     @Test
     fun `counter can not be negative`() {
         //  Given
-        counterModelFixture.increase()
         counterModelFixture.increase()
 
         // When
@@ -78,8 +78,8 @@ class AcceptanceTests {
         counterModelFixture.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(5)
         assertEquals("0", counterModelFixture.value)
         assertTrue(counterModelFixture.isDescreaseDisable)
+        assertEquals(listOf(INCREASED, DECREASED, DECREASED), eventList)
     }
 }

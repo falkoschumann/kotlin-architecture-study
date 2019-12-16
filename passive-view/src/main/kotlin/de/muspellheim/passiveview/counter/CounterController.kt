@@ -18,7 +18,7 @@ class CounterController(val model: CounterService, val view: CounterView) {
 
     fun increase() {
         DispatchQueue.background {
-            model.increment()
+            model.increase()
             DispatchQueue.application {
                 updateState()
             }
@@ -27,7 +27,7 @@ class CounterController(val model: CounterService, val view: CounterView) {
 
     fun decrease() {
         DispatchQueue.background {
-            model.decrement()
+            model.decrease()
             DispatchQueue.application {
                 updateState()
             }

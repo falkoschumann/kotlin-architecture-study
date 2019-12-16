@@ -13,6 +13,6 @@ interface CounterView {
     var value: String
     var isDescreaseDisable: Boolean
 
-    val onIncrease: Action<Void>
-    val onDecrease: Action<Void>
+    val onIncrease: Action
+    val onDecrease: Action
 }
