@@ -17,6 +17,7 @@ import javafx.util.Callback
 /** The app builds the root view-model. */
 class App : Application() {
 
+    internal lateinit var counterViewController: CounterViewController
     private lateinit var injector: Injector
 
     override fun init() {
@@ -25,17 +26,17 @@ class App : Application() {
 
     override fun start(primaryStage: Stage) {
         val root = createRoot()
-        primaryStage.scene = Scene(root.first)
+        primaryStage.scene = Scene(root)
         primaryStage.title = "Counter - MVVM"
         primaryStage.show()
     }
 
-    fun createRoot(): Pair<Parent, CounterViewController> {
+    fun createRoot(): Parent {
         val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
         loader.controllerFactory = Callback { injector.getInstance(it) }
         val view = loader.load<Parent>()
-        val controller = loader.getController<CounterViewController>()
-        return Pair(view, controller)
+        counterViewController = loader.getController<CounterViewController>()
+        return view
     }
 }
 

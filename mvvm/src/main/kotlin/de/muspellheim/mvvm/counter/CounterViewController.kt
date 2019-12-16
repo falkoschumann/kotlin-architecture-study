@@ -19,11 +19,11 @@ class CounterViewController @Inject constructor(private val counterService: Coun
         get() = valueProperty.get()
         private set(value) = valueProperty.set(value)
 
-    private val descreaseDisableProperty by lazy { ReadOnlyBooleanWrapper(this, "descreaseDisable", true) }
-    fun descreaseDisableProperty() = descreaseDisableProperty.readOnlyProperty!!
-    var descreaseDisable: Boolean
-        get() = descreaseDisableProperty.get()
-        private set(value) = descreaseDisableProperty.set(value)
+    private val descreaseDisabledProperty by lazy { ReadOnlyBooleanWrapper(this, "descreaseDisabled", true) }
+    fun descreaseDisabledProperty() = descreaseDisabledProperty.readOnlyProperty!!
+    var isDescreaseDisabled: Boolean
+        get() = descreaseDisabledProperty.get()
+        private set(value) = descreaseDisabledProperty.set(value)
 
     init {
         updateState()
@@ -31,7 +31,7 @@ class CounterViewController @Inject constructor(private val counterService: Coun
 
     fun increase() {
         DispatchQueue.background {
-            counterService.increment()
+            counterService.increase()
             DispatchQueue.application {
                 updateState()
             }
@@ -40,7 +40,7 @@ class CounterViewController @Inject constructor(private val counterService: Coun
 
     fun decrease() {
         DispatchQueue.background {
-            counterService.decrement()
+            counterService.decrease()
             DispatchQueue.application {
                 updateState()
             }
@@ -49,6 +49,6 @@ class CounterViewController @Inject constructor(private val counterService: Coun
 
     private fun updateState() {
         value = counterService.value.toString()
-        descreaseDisable = counterService.value <= 0
+        isDescreaseDisabled = counterService.value <= 0
     }
 }

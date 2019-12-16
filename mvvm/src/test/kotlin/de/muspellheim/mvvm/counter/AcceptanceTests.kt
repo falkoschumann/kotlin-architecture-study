@@ -6,6 +6,7 @@
 package de.muspellheim.mvvm.counter
 
 import de.muspellheim.shared.JavaFxExtension
+import org.awaitility.Awaitility
 import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.time.Duration
 
 /** Acceptance tests. */
 @Tag("it")
@@ -30,15 +32,15 @@ class AcceptanceTests {
 
         val app = App()
         app.init()
-
-        counterViewControllerFixture = app.createRoot().second
+        app.createRoot()
+        counterViewControllerFixture = app.counterViewController
     }
 
     @Test
     fun `intial counter state`() {
         // Then
         assertEquals("0", counterViewControllerFixture.value)
-        assertTrue(counterViewControllerFixture.descreaseDisable)
+        assertTrue(counterViewControllerFixture.isDescreaseDisabled)
     }
 
     @Test
@@ -48,9 +50,10 @@ class AcceptanceTests {
         counterViewControllerFixture.increase()
 
         // Then
-        TimeUnit.SECONDS.sleep(3)
+        Thread.sleep(200)
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { counterViewControllerFixture.value == "2" }
         assertEquals("2", counterViewControllerFixture.value)
-        assertFalse(counterViewControllerFixture.descreaseDisable)
+        assertFalse(counterViewControllerFixture.isDescreaseDisabled)
     }
 
     @Test
@@ -63,9 +66,10 @@ class AcceptanceTests {
         counterViewControllerFixture.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(4)
+        Thread.sleep(200)
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { counterViewControllerFixture.value == "1" }
         assertEquals("1", counterViewControllerFixture.value)
-        assertFalse(counterViewControllerFixture.descreaseDisable)
+        assertFalse(counterViewControllerFixture.isDescreaseDisabled)
     }
 
     @Test
@@ -79,8 +83,9 @@ class AcceptanceTests {
         counterViewControllerFixture.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(5)
+        Thread.sleep(200)
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { counterViewControllerFixture.value == "0" }
         assertEquals("0", counterViewControllerFixture.value)
-        assertTrue(counterViewControllerFixture.descreaseDisable)
+        assertTrue(counterViewControllerFixture.isDescreaseDisabled)
     }
 }

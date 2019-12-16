@@ -11,7 +11,7 @@ import de.muspellheim.shared.Action
 interface CounterView {
 
     var value: String
-    var isDescreaseDisable: Boolean
+    var isDescreaseDisabled: Boolean
 
     val onIncrease: Action
     val onDecrease: Action

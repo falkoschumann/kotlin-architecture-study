@@ -6,6 +6,7 @@
 package de.muspellheim.mvvm.counter
 
 import de.muspellheim.shared.JavaFxExtension
+import org.awaitility.Awaitility
 import java.util.concurrent.TimeUnit
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import java.time.Duration
 
 /** Integration tests. */
 @Tag("it")
@@ -33,7 +35,7 @@ class CounterViewControllerTest {
     fun `intial counter state`() {
         // Then
         assertEquals("0", fixture.value)
-        assertTrue(fixture.descreaseDisable)
+        assertTrue(fixture.isDescreaseDisabled)
     }
 
     @Test
@@ -43,9 +45,10 @@ class CounterViewControllerTest {
         fixture.increase()
 
         // Then
-        TimeUnit.SECONDS.sleep(3)
+        Thread.sleep(200)
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { fixture.value == "2" }
         assertEquals("2", fixture.value)
-        assertFalse(fixture.descreaseDisable)
+        assertFalse(fixture.isDescreaseDisabled)
     }
 
     @Test
@@ -58,15 +61,15 @@ class CounterViewControllerTest {
         fixture.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(4)
+        Thread.sleep(200)
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { fixture.value == "1" }
         assertEquals("1", fixture.value)
-        assertFalse(fixture.descreaseDisable)
+        assertFalse(fixture.isDescreaseDisabled)
     }
 
     @Test
     fun `counter can not be negative`() {
         //  Given
-        fixture.increase()
         fixture.increase()
 
         // When
@@ -74,8 +77,9 @@ class CounterViewControllerTest {
         fixture.decrease()
 
         // Then
-        TimeUnit.SECONDS.sleep(5)
+        Thread.sleep(200)
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { fixture.value == "0" }
         assertEquals("0", fixture.value)
-        assertTrue(fixture.descreaseDisable)
+        assertTrue(fixture.isDescreaseDisabled)
     }
 }

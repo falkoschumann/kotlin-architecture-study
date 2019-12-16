@@ -36,6 +36,6 @@ class CounterController(val model: CounterService, val view: CounterView) {
 
     private fun updateState() {
         view.value = model.value.toString()
-        view.isDescreaseDisable = model.value <= 0
+        view.isDescreaseDisabled = model.value <= 0
     }
 }
