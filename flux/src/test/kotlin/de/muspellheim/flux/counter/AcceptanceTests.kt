@@ -5,7 +5,7 @@
 
 package de.muspellheim.flux.counter
 
-import de.muspellheim.shared.JavaFxExtension
+import de.muspellheim.flux.Dispatcher
 import java.time.Duration
 import org.awaitility.Awaitility.await
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -14,15 +14,13 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
 /** Acceptance tests. */
 @Tag("it")
-@ExtendWith(JavaFxExtension::class)
 class AcceptanceTests {
 
+    private lateinit var dispatcher: Dispatcher
     private lateinit var counterStore: CounterReduceStore
-    private lateinit var counterActions: CounterActions
     private lateinit var actionList: List<Any>
 
     @BeforeEach
@@ -35,10 +33,9 @@ class AcceptanceTests {
 
         val app = App()
         app.init()
-        app.createRoot()
-        app.dispatcher.register { actionList = actionList + it }
+        dispatcher = app.dispatcher
+        dispatcher.register { actionList = actionList + it }
         counterStore = app.injector.getInstance(CounterReduceStore::class.java)
-        counterActions = app.injector.getInstance(CounterActions::class.java)
     }
 
     @Test
@@ -51,8 +48,8 @@ class AcceptanceTests {
     @Test
     fun `increment counter`() {
         // When
-        counterActions.increase()
-        counterActions.increase()
+        dispatcher.dispatch(IncreaseCounterAction())
+        dispatcher.dispatch(IncreaseCounterAction())
 
         // Then
         await().atMost(Duration.ofSeconds(1)).until { actionList.size == 2 }
@@ -63,11 +60,11 @@ class AcceptanceTests {
     @Test
     fun `decrement counter`() {
         //  Given
-        counterActions.increase()
-        counterActions.increase()
+        dispatcher.dispatch(IncreaseCounterAction())
+        dispatcher.dispatch(IncreaseCounterAction())
 
         // When
-        counterActions.decrease()
+        dispatcher.dispatch(DecreaseCounterAction())
 
         // Then
         await().atMost(Duration.ofSeconds(1)).until { actionList.size == 3 }
@@ -78,11 +75,11 @@ class AcceptanceTests {
     @Test
     fun `counter can not be negative`() {
         //  Given
-        counterActions.increase()
+        dispatcher.dispatch(IncreaseCounterAction())
 
         // When
-        counterActions.decrease()
-        counterActions.decrease()
+        dispatcher.dispatch(DecreaseCounterAction())
+        dispatcher.dispatch(DecreaseCounterAction())
 
         // Then
         await().atMost(Duration.ofSeconds(1)).until { actionList.size == 3 }

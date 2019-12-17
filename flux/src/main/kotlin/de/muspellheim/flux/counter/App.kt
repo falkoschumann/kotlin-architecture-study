@@ -20,7 +20,6 @@ import javafx.util.Callback
 class App : Application() {
 
     internal lateinit var dispatcher: Dispatcher
-    internal lateinit var counterViewController: CounterReduceViewController
 
     internal lateinit var injector: Injector
 
@@ -48,9 +47,7 @@ class App : Application() {
     internal fun createRoot(): Parent {
         val loader = FXMLLoader(javaClass.getResource("/views/CounterView.fxml"))
         loader.controllerFactory = Callback { injector.getInstance(it) }
-        val view = loader.load<Parent>()
-        counterViewController = loader.getController<CounterReduceViewController>()
-        return view
+        return loader.load()
     }
 }
 

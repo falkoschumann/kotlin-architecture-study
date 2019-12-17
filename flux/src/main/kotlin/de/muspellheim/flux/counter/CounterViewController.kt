@@ -11,10 +11,7 @@ import javafx.scene.control.Label
 import javax.inject.Inject
 
 /** A view controller. */
-class CounterViewController @Inject constructor(
-    private val counterStore: CounterStore,
-    private val counterActions: CounterActions
-) {
+class CounterViewController @Inject constructor(private val counterStore: CounterStore) {
 
     lateinit var decreaseButton: Button
     lateinit var valueLabel: Label
@@ -25,11 +22,11 @@ class CounterViewController @Inject constructor(
     }
 
     fun increase() {
-        counterActions.increase()
+        counterStore.dispatcher.dispatch(IncreaseCounterAction())
     }
 
     fun decrease() {
-        counterActions.decrease()
+        counterStore.dispatcher.dispatch(IncreaseCounterAction())
     }
 
     private fun update() {

@@ -21,10 +21,7 @@ class CounterStoreTest {
 
     @BeforeEach
     fun setUp() {
-        //
         //  Given
-        //
-
         dispatcher = Dispatcher()
         fixture = CounterStore(dispatcher)
     }

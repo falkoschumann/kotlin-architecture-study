@@ -17,10 +17,7 @@ class CounterReduceStoreTest {
 
     @BeforeEach
     fun setUp() {
-        //
         //  Given
-        //
-
         val dispatcher = Dispatcher()
         fixture = CounterReduceStore(dispatcher)
     }
