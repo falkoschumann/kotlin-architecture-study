@@ -5,6 +5,8 @@
 
 package de.muspellheim.presentationmodel.counter
 
+import java.time.Duration
+import org.awaitility.Awaitility
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -48,6 +50,7 @@ class AcceptanceTests {
         counterModelFixture.increase()
 
         // Then
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { eventList.size == 2 }
         assertEquals("2", counterModelFixture.value)
         assertFalse(counterModelFixture.isDescreaseDisable)
         assertEquals(listOf(INCREASED, INCREASED), eventList)
@@ -63,6 +66,7 @@ class AcceptanceTests {
         counterModelFixture.decrease()
 
         // Then
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { eventList.size == 3 }
         assertEquals("1", counterModelFixture.value)
         assertFalse(counterModelFixture.isDescreaseDisable)
         assertEquals(listOf(INCREASED, INCREASED, DECREASED), eventList)
@@ -78,6 +82,7 @@ class AcceptanceTests {
         counterModelFixture.decrease()
 
         // Then
+        Awaitility.await().atMost(Duration.ofSeconds(1)).until { eventList.size == 3 }
         assertEquals("0", counterModelFixture.value)
         assertTrue(counterModelFixture.isDescreaseDisable)
         assertEquals(listOf(INCREASED, DECREASED, DECREASED), eventList)

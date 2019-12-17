@@ -23,15 +23,11 @@ class CounterViewController @Inject constructor(private val model: CounterModel)
     }
 
     fun increase() {
-        DispatchQueue.background {
-            model.increase()
-        }
+        model.increase()
     }
 
     fun decrease() {
-        DispatchQueue.background {
-            model.decrease()
-        }
+        model.decrease()
     }
 
     private fun updateState() {

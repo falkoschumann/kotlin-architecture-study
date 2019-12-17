@@ -5,6 +5,8 @@
 
 package de.muspellheim.presentationmodel.counter
 
+import java.time.Duration
+import org.awaitility.Awaitility.await
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -44,6 +46,7 @@ class CounterModelTest {
         fixture.increase()
 
         // Then
+        await().atMost(Duration.ofSeconds(1)).until { eventList.size == 2 }
         assertEquals("2", fixture.value)
         assertFalse(fixture.isDescreaseDisable)
         assertEquals(listOf(INCREASED, INCREASED), eventList)
@@ -59,6 +62,7 @@ class CounterModelTest {
         fixture.decrease()
 
         // Then
+        await().atMost(Duration.ofSeconds(1)).until { eventList.size == 3 }
         assertEquals("1", fixture.value)
         assertFalse(fixture.isDescreaseDisable)
         assertEquals(listOf(INCREASED, INCREASED, DECREASED), eventList)
@@ -74,6 +78,7 @@ class CounterModelTest {
         fixture.decrease()
 
         // Then
+        await().atMost(Duration.ofSeconds(1)).until { eventList.size == 3 }
         assertEquals("0", fixture.value)
         assertTrue(fixture.isDescreaseDisable)
         assertEquals(listOf(INCREASED, DECREASED, DECREASED), eventList)
